@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="1" author="zmagdum">
+        <createTable tableName="role">
+            <column name="id" type="identity" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(128)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="description" type="varchar(128)"/>
+            <column name="created" type="TIMESTAMP"/>
+            <column name="updated" type="TIMESTAMP"/>
+            <column name="deleted" type="TIMESTAMP"/>
+        </createTable>
+
+        <createTable tableName="company">
+            <column name="id" type="identity" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(128)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="companyKey" type="varchar(128)"/>
+            <column name="description" type="varchar(255)"/>
+            <column name="address" type="varchar(255)"/>
+            <column name="enabled" type="bit"/>
+            <column name="created" type="TIMESTAMP"/>
+            <column name="updated" type="TIMESTAMP"/>
+            <column name="deleted" type="TIMESTAMP"/>
+        </createTable>
+
+        <createTable tableName="user">
+            <column name="id" type="identity" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(128)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="password" type="varchar(128)"/>
+            <column name="passwordHint" type="varchar(255)"/>
+            <column name="firstName" type="varchar(128)"/>
+            <column name="lastName" type="varchar(128)"/>
+            <column name="email" type="varchar(128)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="phoneNumber" type="varchar(32)"/>
+            <column name="enabled" type="bit"/>
+            <column name="accountExpired" type="bit"/>
+            <column name="accountLocked" type="bit"/>
+            <column name="credentialsExpired" type="bit"/>
+            <column name="created" type="TIMESTAMP"/>
+            <column name="updated" type="TIMESTAMP"/>
+            <column name="deleted" type="TIMESTAMP"/>
+        </createTable>
+
+        <createTable tableName="user_role">
+            <column name="userId" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="roleId" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addUniqueConstraint tableName="user_role" columnNames="userId,roleId" constraintName="uq_userid_roleid"/>
+
+    </changeSet>
+
+
+</databaseChangeLog>
