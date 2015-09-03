@@ -1,6 +1,7 @@
 package org.zama.examples.liquibase.model;
 
 import lombok.Data;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -21,10 +22,15 @@ public @Data class BaseObject {
     private String name;
 
     @Column
+    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     private LocalDateTime created;
+
     @Column
+    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     private LocalDateTime updated;
+
     @Column
+    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     private LocalDateTime deleted;
 
 }

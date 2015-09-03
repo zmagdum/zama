@@ -7,9 +7,9 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-    <changeSet id="1" author="zmagdum">
+    <changeSet id="1" author="zmagdum" context="production">
         <createTable tableName="role">
-            <column name="id" type="identity" autoIncrement="true">
+            <column name="id" type="identity">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="name" type="varchar(128)">
@@ -22,7 +22,7 @@
         </createTable>
 
         <createTable tableName="company">
-            <column name="id" type="identity" autoIncrement="true">
+            <column name="id" type="identity">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="name" type="varchar(128)">
@@ -38,8 +38,11 @@
         </createTable>
 
         <createTable tableName="user">
-            <column name="id" type="identity" autoIncrement="true">
+            <column name="id" type="identity">
                 <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="companyId" type="BIGINT">
+                <constraints nullable="false"/>
             </column>
             <column name="name" type="varchar(128)">
                 <constraints unique="true" nullable="false"/>

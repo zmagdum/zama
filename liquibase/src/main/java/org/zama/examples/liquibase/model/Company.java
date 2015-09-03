@@ -3,10 +3,7 @@ package org.zama.examples.liquibase.model;
 import lombok.Data;
 import org.codehaus.jackson.annotate.JsonManagedReference;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.Set;
 
 /**
@@ -14,6 +11,7 @@ import java.util.Set;
  *
  * @author Zakir Magdum
  */
+@Entity
 public @Data class Company extends BaseObject {
     @Column(length = 64)
     private String companyKey;
@@ -24,7 +22,7 @@ public @Data class Company extends BaseObject {
     @Column
     private boolean enabled;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonManagedReference
     private Set<User> users;
 }
