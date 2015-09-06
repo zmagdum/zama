@@ -12,7 +12,7 @@ import java.util.Set;
  * @author Zakir Magdum
  */
 @Entity
-public @Data class Company extends BaseObject {
+public @Data class Company extends BaseObject<Company> {
     @Column(length = 64)
     private String companyKey;
     @Column(length = 255)
@@ -25,4 +25,14 @@ public @Data class Company extends BaseObject {
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonManagedReference
     private Set<User> users;
+
+    public Company merge(Company company) {
+        super.merge(company);
+        this.companyKey = company.companyKey;
+        this.description = company.description;
+        this.address = company.address;
+        this.enabled = company.enabled;
+        // TODO: sync users in case they exists
+        return this;
+    }
 }
