@@ -13,5 +13,11 @@ import javax.persistence.Entity;
 @Entity
 public @Data class Role extends BaseObject {
     @Column(length = 64)
-    private String Description;
+    private String description;
+
+    public Role merge(Role role) {
+        super.merge(role);
+        this.description = role.description;
+        return this;
+    }
 }

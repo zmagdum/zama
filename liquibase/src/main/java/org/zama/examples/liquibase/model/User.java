@@ -47,4 +47,19 @@ public @Data class User extends BaseObject {
             inverseJoinColumns = @JoinColumn(name = "roleId")
     )
     private Set<Role> roles = new HashSet<Role>();
+
+    public User merge(User user) {
+        super.merge(user);
+        this.password = user.password;
+        this.passwordHint = user.passwordHint;
+        this.firstName = user.firstName;
+        this.lastName = user.lastName;
+        this.email = user.email;
+        this.phoneNumber = user.phoneNumber;
+        this.enabled = user.enabled;
+        this.accountExpired = user.accountExpired;
+        this.accountLocked = user.accountLocked;
+        this.credentialsExpired = user.credentialsExpired;
+        return this;
+    }
 }
