@@ -28,7 +28,9 @@
             <column name="name" type="varchar(128)">
                 <constraints unique="true" nullable="false"/>
             </column>
-            <column name="companyKey" type="varchar(128)"/>
+            <column name="company_key" type="varchar(128)">
+                <constraints unique="true" nullable="false"/>
+            </column>
             <column name="description" type="varchar(255)"/>
             <column name="address" type="varchar(255)"/>
             <column name="enabled" type="bit"/>
@@ -41,43 +43,43 @@
             <column name="id" autoIncrement="true" type="BIGINT UNSIGNED">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="companyId" type="BIGINT">
+            <column name="company_id" type="BIGINT UNSIGNED">
                 <constraints nullable="false"/>
             </column>
             <column name="name" type="varchar(128)">
                 <constraints unique="true" nullable="false"/>
             </column>
             <column name="password" type="varchar(128)"/>
-            <column name="passwordHint" type="varchar(255)"/>
-            <column name="firstName" type="varchar(128)"/>
-            <column name="lastName" type="varchar(128)"/>
+            <column name="password_hint" type="varchar(255)"/>
+            <column name="first_name" type="varchar(128)"/>
+            <column name="last_name" type="varchar(128)"/>
             <column name="email" type="varchar(128)">
                 <constraints unique="true" nullable="false"/>
             </column>
-            <column name="phoneNumber" type="varchar(32)"/>
+            <column name="phone_number" type="varchar(32)"/>
             <column name="enabled" type="bit"/>
-            <column name="accountExpired" type="bit"/>
-            <column name="accountLocked" type="bit"/>
-            <column name="credentialsExpired" type="bit"/>
+            <column name="account_expired" type="bit"/>
+            <column name="account_locked" type="bit"/>
+            <column name="credentials_expired" type="bit"/>
             <column name="created" type="TIMESTAMP"/>
             <column name="updated" type="TIMESTAMP"/>
             <column name="deleted" type="TIMESTAMP"/>
         </createTable>
 
-        <addForeignKeyConstraint baseColumnNames="companyId" baseTableName="user"
+        <addForeignKeyConstraint baseColumnNames="company_id" baseTableName="user"
                                  constraintName="fk_user_company"
                                  referencedColumnNames="id" referencedTableName="company"/>
 
         <createTable tableName="user_role">
-            <column name="userId" type="BIGINT UNSIGNED">
+            <column name="user_id" type="BIGINT UNSIGNED">
                 <constraints nullable="false"/>
             </column>
-            <column name="roleId" type="BIGINT UNSIGNED">
+            <column name="role_id" type="BIGINT UNSIGNED">
                 <constraints nullable="false"/>
             </column>
         </createTable>
 
-        <addUniqueConstraint tableName="user_role" columnNames="userId,roleId" constraintName="uq_userid_roleid"/>
+        <addUniqueConstraint tableName="user_role" columnNames="user_id,role_id" constraintName="uq_userid_roleid"/>
 
     </changeSet>
 

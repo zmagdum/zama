@@ -25,3 +25,6 @@ spring:
             hibernate.generate_statistics: true
             hibernate.hbm2ddl.auto: validate
 
+security:
+    user:
+        password: password
