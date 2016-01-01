@@ -1,6 +1,6 @@
 package org.zama.examples.multitenant.model;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,7 +11,7 @@ import javax.persistence.Entity;
  * @author Zakir Magdum
  */
 @Entity
-public @Data class Role extends BaseObject {
+public class Role extends BaseObject {
     @Column(length = 64)
     private String description;
 
@@ -19,5 +19,13 @@ public @Data class Role extends BaseObject {
         super.merge(role);
         this.description = role.description;
         return this;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

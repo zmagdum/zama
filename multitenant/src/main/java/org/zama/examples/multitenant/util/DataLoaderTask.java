@@ -101,7 +101,8 @@ public class DataLoaderTask implements CustomTaskChange {
 
             }
             for (CSVRecord record : records) {
-                String sql = "INSERT INTO user(name,company_id,first_name,last_name,password,email,phone_number,password_hint) SELECT '" +
+                String sql = "INSERT INTO user(name,company_id,first_name,last_name,password,email,phone_number," +
+                        "password_hint,account_expired,account_locked,credentials_expired,enabled) SELECT '" +
                         record.get("name") +
                         "',id,'"
                         + record.get("first_name") + "','"
@@ -109,7 +110,7 @@ public class DataLoaderTask implements CustomTaskChange {
                         + BCrypt.hashpw(record.get("password"), BCrypt.gensalt()) + "','"
                         + record.get("email") + "','"
                         + record.get("phone_number") + "','"
-                        + record.get("description") + "' "
+                        + record.get("description") + "',false,false,false,true "
                         + "FROM company WHERE company_key='" + record.get("company_key") + "'";
                 LOGGER.info(sql);
                 PreparedStatement statement = databaseConnection.prepareStatement(sql);

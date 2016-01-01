@@ -1,7 +1,8 @@
 package org.zama.examples.multitenant.model;
 
-import lombok.Data;
-import org.codehaus.jackson.annotate.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -12,7 +13,7 @@ import java.util.Set;
  * @author Zakir Magdum
  */
 @Entity
-public @Data class Company extends BaseObject<Company> {
+public class Company extends BaseObject<Company> {
     @Column(length = 64, unique = true, nullable = false)
     private String companyKey;
     @Column(length = 255)
@@ -24,6 +25,7 @@ public @Data class Company extends BaseObject<Company> {
 
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonManagedReference
+    @JsonIgnore
     private Set<User> users;
 
     public Company merge(Company company) {
@@ -34,5 +36,45 @@ public @Data class Company extends BaseObject<Company> {
         this.enabled = company.enabled;
         // TODO: sync users in case they exists
         return this;
+    }
+
+    public String getCompanyKey() {
+        return companyKey;
+    }
+
+    public void setCompanyKey(String companyKey) {
+        this.companyKey = companyKey;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
 }

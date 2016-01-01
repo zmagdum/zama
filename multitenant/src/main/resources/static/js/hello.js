@@ -19,8 +19,9 @@ angular.module('hello', []).config(function($httpProvider) {
                 headers : headers
             }).success(function(data) {
                 if (data.name) {
+                    console.log('user', data)
                     $scope.authenticated = true;
-                    $scope.user = data.name
+                    $scope.user = data.principal.firstName + ' ' + data.principal.lastName
                     $scope.admin = data && data.roles && data.roles.indexOf("ROLE_ADMIN")>0;
                 } else {
                     $scope.authenticated = false;
