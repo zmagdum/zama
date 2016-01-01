@@ -1,22 +1,10 @@
-angular.module('hello', [ 'ngRoute' ]).config(function($routeProvider, $httpProvider) {
-    $routeProvider.when('/', {
-        templateUrl : 'home.html',
-        controller : 'home'
-    }).when('/login', {
-        templateUrl : 'login.html',
-        controller : 'navigation'
-    }).otherwise('/');
+angular.module('hello', []).config(function($httpProvider) {
 
     $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
-}).controller(
-    'navigation',
+}).controller('navigation',
 
-    function($rootScope, $scope, $http, $location, $route) {
-
-        $scope.tab = function(route) {
-            return $route.current && route === $route.current.controller;
-        };
+    function($scope, $http) {
 
         var authenticate = function(credentials, callback) {
 
@@ -26,17 +14,21 @@ angular.module('hello', [ 'ngRoute' ]).config(function($routeProvider, $httpProv
                     + credentials.password)
             } : {};
 
+            $scope.user = ''
             $http.get('user', {
                 headers : headers
             }).success(function(data) {
                 if (data.name) {
-                    $rootScope.authenticated = true;
+                    $scope.authenticated = true;
+                    $scope.user = data.name
+                    $scope.admin = data && data.roles && data.roles.indexOf("ROLE_ADMIN")>0;
                 } else {
-                    $rootScope.authenticated = false;
+                    $scope.authenticated = false;
+                    $scope.admin = false;
                 }
-                callback && callback($rootScope.authenticated);
+                callback && callback(true);
             }).error(function() {
-                $rootScope.authenticated = false;
+                $scope.authenticated = false;
                 callback && callback(false);
             });
 
@@ -47,32 +39,20 @@ angular.module('hello', [ 'ngRoute' ]).config(function($routeProvider, $httpProv
         $scope.credentials = {};
         $scope.login = function() {
             authenticate($scope.credentials, function(authenticated) {
-                if (authenticated) {
-                    console.log("Login succeeded")
-                    $location.path("/");
-                    $scope.error = false;
-                    $rootScope.authenticated = true;
-                } else {
-                    console.log("Login failed")
-                    $location.path("/login");
-                    $scope.error = true;
-                    $rootScope.authenticated = false;
-                }
+                $scope.authenticated = authenticated;
+                $scope.error = !authenticated;
             })
         };
 
         $scope.logout = function() {
             $http.post('logout', {}).success(function() {
-                $rootScope.authenticated = false;
-                $location.path("/");
+                $scope.authenticated = false;
+                $scope.admin = false;
             }).error(function(data) {
                 console.log("Logout failed")
-                $rootScope.authenticated = false;
+                $scope.authenticated = false;
+                $scope.admin = false;
             });
         }
 
-    }).controller('home', function($scope, $http) {
-        $http.get('/resource/').success(function(data) {
-            $scope.greeting = data;
-        })
     });
