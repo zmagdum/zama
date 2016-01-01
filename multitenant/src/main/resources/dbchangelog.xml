@@ -81,6 +81,35 @@
 
         <addUniqueConstraint tableName="user_role" columnNames="user_id,role_id" constraintName="uq_userid_roleid"/>
 
+        <createTable tableName="product">
+            <column name="id" autoIncrement="true" type="BIGINT UNSIGNED">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(128)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="company_id" type="BIGINT UNSIGNED">
+                <constraints nullable="false"/>
+            </column>
+            <column name="product_id" type="varchar(128)"/>
+            <column name="price" type="DOUBLE"/>
+            <column name="description" type="varchar(256)"/>
+            <column name="created" type="TIMESTAMP"/>
+            <column name="updated" type="TIMESTAMP"/>
+            <column name="deleted" type="TIMESTAMP"/>
+        </createTable>
+        <addForeignKeyConstraint baseColumnNames="company_id" baseTableName="product"
+                                 constraintName="fk_product_company"
+                                 referencedColumnNames="id" referencedTableName="company"/>
+
+    </changeSet>
+
+    <changeSet id="2" author="zmagdum" context="test">
+        <customChange class="org.zama.examples.multitenant.util.DataLoaderTask">
+            <param name="companyFileName" value="/data/company.csv" />
+            <param name="productFileName" value="/data/product.csv" />
+            <param name="userFileName" value="/data/user.csv" />
+        </customChange>
     </changeSet>
 
 </databaseChangeLog>
