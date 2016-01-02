@@ -1,0 +1,6 @@
+<h1>Products for {{company.name}}</h1>
+<div ng-controller="product" class="container" ng-show="authenticated">
+    <div class="product" ng-repeat="product in products">
+        <span>{{product.name}}</span>
+    </div>
+</div>

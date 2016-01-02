@@ -46,6 +46,12 @@ public class HelloWorldResource {
     public List<Product> froductsForLoggerInUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) auth.getPrincipal();
+        LOGGER.info("Getting products for user {} company {}", user.getName(), user.getCompany().getCompanyKey());
         return productRepository.findByCompanyKey(user.getCompany().getCompanyKey());
     }
+
+//    @RequestMapping("/login")
+//    public String login() {
+//        return "forward:/";
+//    }
 }

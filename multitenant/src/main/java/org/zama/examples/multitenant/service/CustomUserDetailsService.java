@@ -32,14 +32,14 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        LOGGER.info("Looking for user for {}", username);
+        LOGGER.trace("Looking for user for {}", username);
         try {
             Optional<User> user = userDao.findOneByName(username);
             if (!user.isPresent()) {
                 LOGGER.info("USER NOT PRESENT for {} {}", username, user);
                 throw new UsernameNotFoundException("user not found");
             }
-            LOGGER.info("Found user for {} {}", username, user);
+            LOGGER.trace("Found user for {} {}", username, user);
             return user.get();
         } catch (Exception e) {
             LOGGER.error("Error loading user {}", username, e);
