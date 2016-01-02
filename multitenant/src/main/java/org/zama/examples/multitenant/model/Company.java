@@ -28,6 +28,11 @@ public class Company extends BaseObject<Company> {
     @JsonIgnore
     private Set<User> users;
 
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @JsonIgnore
+    private Set<Product> products;
+
     public Company merge(Company company) {
         super.merge(company);
         this.companyKey = company.companyKey;
@@ -76,5 +81,13 @@ public class Company extends BaseObject<Company> {
 
     public void setUsers(Set<User> users) {
         this.users = users;
+    }
+
+    public Set<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(Set<Product> products) {
+        this.products = products;
     }
 }

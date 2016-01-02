@@ -65,7 +65,11 @@
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>
-<!--div ng-view class="container" ng-show="authenticated"></div-->
+<div ng-controller="product" class="container" ng-show="authenticated">
+    <div class="product" ng-repeat="product in products">
+        <span>{{product.name}}</span>
+    </div>
+</div>
 <script src="js/angular-bootstrap.js" type="text/javascript"></script>
 <script src="js/hello.js"></script>
 </body>

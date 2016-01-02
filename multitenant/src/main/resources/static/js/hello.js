@@ -56,4 +56,8 @@ angular.module('hello', []).config(function($httpProvider) {
             });
         }
 
+    }).controller('product', function($scope, $http) {
+        $http.get('/products').success(function(data) {
+            $scope.products = data;
+        })
     });
