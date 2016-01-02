@@ -1,0 +1,13 @@
+<h1>Products for {{company.name}}</h1>
+<div ng-controller="productlist" class="container" ng-show="authenticated">
+    <table class="table table-striped">
+        <tbody>
+        <tr class="product" ng-repeat="product in products">
+            <td>{{product.name}}</td>
+            <td>{{product.productId}}</td>
+            <td>{{product.price}}</td>
+            <td>{{product.description}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

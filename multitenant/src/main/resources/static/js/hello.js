@@ -1,24 +1,21 @@
 angular.module('hello', [ 'ngRoute' ]).config(function($routeProvider, $httpProvider) {
-    $routeProvider.when('/', {
+    $routeProvider.when('/ddd', {
         templateUrl : 'login.html',
         controller : 'navigation'
     }).when('/login', {
         templateUrl : 'login.html',
         controller : 'navigation'
-    }).when('/products', {
-        templateUrl : 'products.html',
-        controller : 'products',
-        resolve: {
-            factory: checkRouting
-        }
+    }).when('/productlist', {
+        templateUrl : 'productlist.html',
+        controller : 'productlist'
     }).otherwise('/');
 
     $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 }).run( function($rootScope, $location) {
-    console.log("running", $rootScope)
     // register listener to watch route changes
     $rootScope.$on( "$routeChangeStart", function(event, next, current) {
+        console.log("running", $rootScope, $rootScope.authenticated)
         if (!$rootScope.authenticated) {
             // no logged user, we should be going to #login
             if ( next.templateUrl == "/login.html" ) {
@@ -28,7 +25,7 @@ angular.module('hello', [ 'ngRoute' ]).config(function($routeProvider, $httpProv
                 $location.path( "/login" );
             }
         } else {
-            $location.path( "/products" );
+            $location.path( "/productlist" );
         }
     });
 }).controller(
@@ -52,6 +49,9 @@ angular.module('hello', [ 'ngRoute' ]).config(function($routeProvider, $httpProv
             }).success(function(data) {
                 if (data.name) {
                     $rootScope.authenticated = true;
+                    $rootScope.userName = data.principal.firstName + ' ' + data.principal.lastName
+                    $rootScope.user = data.principal.name;
+                    $scope.admin = data && data.roles && data.roles.indexOf("ROLE_ADMIN")>0;
                 } else {
                     $rootScope.authenticated = false;
                 }
@@ -75,7 +75,7 @@ angular.module('hello', [ 'ngRoute' ]).config(function($routeProvider, $httpProv
                     $location.path("/products");
                     $scope.error = false;
                     $rootScope.authenticated = true;
-                    $scope.$apply( function () { $location.path("/products") } );
+//                    $scope.$apply( function () { $location.path("/products") } );
                 } else {
                     console.log("Login failed")
                     $location.path("/login");
@@ -92,12 +92,16 @@ angular.module('hello', [ 'ngRoute' ]).config(function($routeProvider, $httpProv
             }).error(function(data) {
                 console.log("Logout failed")
                 $rootScope.authenticated = false;
+                $location.path("/");
             });
         }
 
-    }).controller('products', function($scope, $http) {
+    }).controller('productlist', function($scope, $http) {
         $http.get('/products').success(function(data) {
             $scope.products = data;
+        })
+        $http.get('/companyByUserName/'+$scope.user).success(function(data) {
+            $scope.company = data;
         })
     });
 
