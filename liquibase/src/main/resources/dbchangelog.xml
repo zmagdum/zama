@@ -64,6 +64,10 @@
             <column name="deleted" type="TIMESTAMP"/>
         </createTable>
 
+        <addForeignKeyConstraint baseColumnNames="companyId" baseTableName="user"
+                                 constraintName="fk_user_company"
+                                 referencedColumnNames="id" referencedTableName="company"/>
+
         <createTable tableName="user_role">
             <column name="userId" type="bigint">
                 <constraints nullable="false"/>
@@ -72,9 +76,9 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+
         <addUniqueConstraint tableName="user_role" columnNames="userId,roleId" constraintName="uq_userid_roleid"/>
 
     </changeSet>
-
 
 </databaseChangeLog>

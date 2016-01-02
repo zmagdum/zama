@@ -8,7 +8,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>multitenant</name>
+	<name>boot-mysql-angjs</name>
 	<description>Separate Database Multitenancy using Spring Boot Framework</description>
 
 	<parent>
