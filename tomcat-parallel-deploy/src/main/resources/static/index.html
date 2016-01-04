@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+<head>
+    <title>Zama Tomcat Parallel Deployer</title>
+    <link
+            href="css/angular-bootstrap.css"
+            rel="stylesheet">
+    <style type="text/css">
+        [ng\:cloak], [ng-cloak], .ng-cloak {
+            display: none !important;
+        }
+        .center_parent {
+            display: table;
+            width: 100%;
+        }
+        .center_child {
+            display: table-cell;
+            text-align: center;
+            vertical-align: middle;
+        }
+        .form_wrapper {
+            position:absolute;
+            top:50%;
+            right:0;
+            left:0;
+        }
+    </style>
+</head>
+
+<body ng-app="hello" ng-controller="navigation" ng-cloak class="ng-cloak">
+<nav class="navbar navbar-default">
+    <div ng-controller="navigation" class="container">
+        <a class="brand" href='#/'>ZAMA Tomcat Parallel Deployer</a>
+        <div class="navbar-right">
+            <span ng-show="authenticated">Welcome {{userName}}</span>
+            <a class="btn btn-primary" ng-show="authenticated" href="" ng-click="logout()">Logout</a>
+       </div>
+    </div>
+    </div>
+</nav>
+
+<div ng-view class="container"></div>
+
+<script src="js/angular-bootstrap.js" type="text/javascript"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
