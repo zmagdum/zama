@@ -130,7 +130,7 @@ angular.module('hello', ['ngRoute']).config(function ($routeProvider, $httpProvi
             var file = $scope.fileToUpload;
             console.log('file is ');
             console.dir(file);
-            var uploadUrl = "/api/upload";
+            var uploadUrl = "api/upload";
             $scope.uploadMessage = "";
             fileUpload.uploadFileToUrl(file, uploadUrl, function(data) {
                 console.log("upload success", data)
