@@ -1,7 +1,9 @@
-package org.zama.examples.paralleldeploy.model;
+package org.zama.paralleldeploy.model;
 
 /**
  * UploadMessage.
+ *
+ * Bean to pass messages from deployment. Useful when running curl commands.
  *
  * @author Zakir Magdum
  */

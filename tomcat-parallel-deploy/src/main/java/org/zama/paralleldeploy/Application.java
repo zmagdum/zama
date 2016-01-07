@@ -1,4 +1,4 @@
-package org.zama.examples.paralleldeploy;
+package org.zama.paralleldeploy;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

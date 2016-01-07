@@ -1,4 +1,4 @@
-package org.zama.examples.paralleldeploy.config;
+package org.zama.paralleldeploy.config;
 
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.ComponentScan;
@@ -26,7 +26,7 @@ import java.io.IOException;
  * @author Zakir Magdum
  */
 @Configuration
-@ComponentScan("org.zama.examples.paralleldeploy.service")
+@ComponentScan("org.zama.paralleldeploy.service")
 @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
@@ -37,6 +37,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authenticated().and().csrf().disable()
                 /*.csrfTokenRepository(csrfTokenRepository()).and()
                 .addFilterAfter(csrfHeaderFilter(), CsrfFilter.class)*/;
+        // TODO: bring back csrf filter
     }
 
     private Filter csrfHeaderFilter() {

@@ -1,4 +1,4 @@
-package org.zama.examples.paralleldeploy.rest;
+package org.zama.paralleldeploy.rest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.zama.examples.paralleldeploy.model.UploadMessage;
+import org.zama.paralleldeploy.model.UploadMessage;
 
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
@@ -17,13 +17,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * FileUploadController.
+ * DeployController.
+ * REST API for Tomcat Parallel Deploy.
  *
  * @author Zakir Magdum
  */
 @Controller
-public class FileUploadController implements InitializingBean {
-    private static final Logger LOGGER = LoggerFactory.getLogger(FileUploadController.class);
+public class DeployController implements InitializingBean {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DeployController.class);
     public static final String WAR_WITH_VERSION_FORMAT = "%s##%03d.%s";
     private Path downloadDirectory;
     private Path webappsDirectory;
@@ -104,17 +105,26 @@ public class FileUploadController implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
+        // This is very tomcat specific so assume these properties exist
         downloadDirectory = Paths.get(System.getProperty("catalina.home"), "downloads");
         Files.createDirectories(downloadDirectory);
         webappsDirectory = Paths.get(System.getProperty("catalina.home"), "webapps");
     }
 
+    /**
+     * Get next version number to deploy. Version numbers are embeded in
+     * war file name as name##version.war
+     * @param name name of the war file as there could be many deployed.
+     * @param ext -- extention of the war file
+     * @param files -- list for returning existing files names.
+     * @return -- next integer version.
+     */
     private int nextVersionNumber(String name, String ext, List<Path> files) {
         int version = 0;
          try (DirectoryStream<Path> stream = Files.newDirectoryStream(webappsDirectory,
                 String.format("%s*.%s",name, ext))) {
             for (Path entry: stream) {
-                LOGGER.info("Found existing deployment {}", entry);
+                LOGGER.trace("Found existing deployment {}", entry);
                 int ii = entry.getFileName().toString().lastIndexOf('.');
                 if (ii > 0) {
                     String ver = entry.getFileName().toString().substring(0, ii);
@@ -129,7 +139,7 @@ public class FileUploadController implements InitializingBean {
         } catch (Exception ex) {
             LOGGER.error("Error listing webapps directory {}", webappsDirectory, ex);
         }
-        version++;
+        version++; // increment by 1 to get next version
         return version;
     }
 
