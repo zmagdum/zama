@@ -1,0 +1,9 @@
+company_key,name,first_name,last_name,password,email,phone_number,description,roles
+llbean,llbean-user,LLBean,User,password,user@llbean.com,111-111-1111,User,USER
+llbean,llbean-admin,LLBean,Admin,password,admin@llbean.com,222-222-2222,Admin,"USER,ADMIN"
+apple,apple-user,Apple,User,password,user@apple.com,333-333-3333,User,USER
+apple,apple-admin,Apple,Admin,password,admin@apple.com,444-444-4444,Admin,"USER,ADMIN"
+emc,emc-user,EMC,User,password,user@emc.com,555-555-5555,User,USER
+emc,emc-admin,EMC,Admin,password,admin@emc.com,666-666-6666,Admin,"USER,ADMIN"
+nike,nike-user,Nike,User,password,user@nike.com,777-777-7777,User,USER
+nike,nike-admin,Nike,Admin,password,admin@nike.com,888-888-8888,Admin,"USER,ADMIN"

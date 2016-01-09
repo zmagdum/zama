@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="1" author="zmagdum" context="production">
+        <createTable tableName="role">
+            <column name="id" autoIncrement="true" type="BIGINT UNSIGNED">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(128)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="description" type="varchar(128)"/>
+            <column name="created" type="TIMESTAMP"/>
+            <column name="updated" type="TIMESTAMP"/>
+            <column name="deleted" type="TIMESTAMP"/>
+        </createTable>
+
+        <createTable tableName="company">
+            <column name="id" autoIncrement="true" type="BIGINT UNSIGNED">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(128)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="company_key" type="varchar(128)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="description" type="varchar(255)"/>
+            <column name="address" type="varchar(255)"/>
+            <column name="enabled" type="bit"/>
+            <column name="created" type="TIMESTAMP"/>
+            <column name="updated" type="TIMESTAMP"/>
+            <column name="deleted" type="TIMESTAMP"/>
+        </createTable>
+
+        <createTable tableName="user">
+            <column name="id" autoIncrement="true" type="BIGINT UNSIGNED">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="company_id" type="BIGINT UNSIGNED">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="varchar(128)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="password" type="varchar(128)"/>
+            <column name="password_hint" type="varchar(255)"/>
+            <column name="first_name" type="varchar(128)"/>
+            <column name="last_name" type="varchar(128)"/>
+            <column name="email" type="varchar(128)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="phone_number" type="varchar(32)"/>
+            <column name="enabled" type="bit"/>
+            <column name="account_expired" type="bit"/>
+            <column name="account_locked" type="bit"/>
+            <column name="credentials_expired" type="bit"/>
+            <column name="created" type="TIMESTAMP"/>
+            <column name="updated" type="TIMESTAMP"/>
+            <column name="deleted" type="TIMESTAMP"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseColumnNames="company_id" baseTableName="user"
+                                 constraintName="fk_user_company"
+                                 referencedColumnNames="id" referencedTableName="company"/>
+
+        <createTable tableName="user_role">
+            <column name="user_id" type="BIGINT UNSIGNED">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role_id" type="BIGINT UNSIGNED">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addUniqueConstraint tableName="user_role" columnNames="user_id,role_id" constraintName="uq_userid_roleid"/>
+
+        <createTable tableName="product">
+            <column name="id" autoIncrement="true" type="BIGINT UNSIGNED">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(128)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="company_id" type="BIGINT UNSIGNED">
+                <constraints nullable="false"/>
+            </column>
+            <column name="product_id" type="varchar(128)"/>
+            <column name="price" type="DOUBLE"/>
+            <column name="description" type="varchar(256)"/>
+            <column name="created" type="TIMESTAMP"/>
+            <column name="updated" type="TIMESTAMP"/>
+            <column name="deleted" type="TIMESTAMP"/>
+        </createTable>
+        <addForeignKeyConstraint baseColumnNames="company_id" baseTableName="product"
+                                 constraintName="fk_product_company"
+                                 referencedColumnNames="id" referencedTableName="company"/>
+
+    </changeSet>
+
+    <changeSet id="2" author="zmagdum" context="test">
+        <customChange class="org.zama.examples.multitenant.util.DataLoaderTask">
+            <param name="companyFileName" value="/data/company.csv" />
+            <param name="productFileName" value="/data/product.csv" />
+            <param name="userFileName" value="/data/user.csv" />
+        </customChange>
+    </changeSet>
+
+</databaseChangeLog>
