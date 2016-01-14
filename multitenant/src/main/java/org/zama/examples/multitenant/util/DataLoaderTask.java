@@ -30,15 +30,10 @@ public class DataLoaderTask implements CustomTaskChange {
 
     private ResourceAccessor resourceAccessor;
     private String companyFileName;
-    private String productFileName;
     private String userFileName;
 
     public void setCompanyFileName(String companyFileName) {
         this.companyFileName = companyFileName;
-    }
-
-    public void setProductFileName(String productFileName) {
-        this.productFileName = productFileName;
     }
 
     public void setUserFileName(String userFileName) {
@@ -63,27 +58,6 @@ public class DataLoaderTask implements CustomTaskChange {
                 statement.execute ();
                 statement.close ();
              }
-            in.close();
-
-            streams = resourceAccessor.getResourcesAsStream(productFileName);
-            if (streams.size() < 1) {
-                throw new CustomChangeException("Product data file not found");
-            }
-            in = new InputStreamReader(streams.iterator().next());
-            records = CSVFormat.EXCEL.withHeader().parse(in);
-            for (CSVRecord record : records) {
-                String sql = "INSERT INTO product(name,company_id,product_id,price,description) SELECT '" +
-                        record.get("name").replaceAll("'", "''") +
-                        "',id,'"
-                        + record.get("product_id") + "',"
-                        + record.get("price") + ",'"
-                        + record.get("description").replaceAll("'", "''") + "'"
-                        + " FROM company WHERE company_key='" + record.get("company_key") + "'";
-                LOGGER.info(sql);
-                PreparedStatement statement = databaseConnection.prepareStatement (sql);
-                statement.execute ();
-                statement.close ();
-            }
             in.close();
 
             streams = resourceAccessor.getResourcesAsStream(userFileName);

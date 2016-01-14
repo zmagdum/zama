@@ -3,13 +3,12 @@ package org.zama.examples.multitenant.repository;
 import org.assertj.core.api.StrictAssertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.data.repository.config.RepositoryConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
-import org.zama.examples.multitenant.Application;
-import org.zama.examples.multitenant.model.Role;
+import org.zama.examples.multitenant.model.master.Role;
+import org.zama.examples.multitenant.repository.master.RoleRepository;
 
 import javax.inject.Inject;
 

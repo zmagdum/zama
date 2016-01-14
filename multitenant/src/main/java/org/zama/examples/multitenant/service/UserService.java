@@ -2,12 +2,12 @@ package org.zama.examples.multitenant.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.zama.examples.multitenant.model.Company;
-import org.zama.examples.multitenant.model.Role;
-import org.zama.examples.multitenant.model.User;
-import org.zama.examples.multitenant.repository.CompanyRepository;
-import org.zama.examples.multitenant.repository.RoleRepository;
-import org.zama.examples.multitenant.repository.UserRepository;
+import org.zama.examples.multitenant.model.master.Company;
+import org.zama.examples.multitenant.model.master.Role;
+import org.zama.examples.multitenant.model.master.User;
+import org.zama.examples.multitenant.repository.master.CompanyRepository;
+import org.zama.examples.multitenant.repository.master.RoleRepository;
+import org.zama.examples.multitenant.repository.master.UserRepository;
 
 import javax.inject.Inject;
 import java.util.List;

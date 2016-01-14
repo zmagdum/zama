@@ -1,7 +1,9 @@
-package org.zama.examples.multitenant.model;
+package org.zama.examples.multitenant.model.master;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.zama.examples.multitenant.model.BaseObject;
+import org.zama.examples.multitenant.model.tenant.Product;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -26,11 +28,6 @@ public class Company extends BaseObject<Company> {
     @JsonManagedReference
     @JsonIgnore
     private Set<User> users;
-
-    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonManagedReference
-    @JsonIgnore
-    private Set<Product> products;
 
     public Company merge(Company company) {
         super.merge(company);
@@ -80,13 +77,5 @@ public class Company extends BaseObject<Company> {
 
     public void setUsers(Set<User> users) {
         this.users = users;
-    }
-
-    public Set<Product> getProducts() {
-        return products;
-    }
-
-    public void setProducts(Set<Product> products) {
-        this.products = products;
     }
 }

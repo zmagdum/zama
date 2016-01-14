@@ -1,11 +1,9 @@
-package org.zama.examples.multitenant.model;
+package org.zama.examples.multitenant.model.tenant;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import org.zama.examples.multitenant.model.BaseObject;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 
 /**
  * User.
@@ -22,12 +20,6 @@ public class Product extends BaseObject {
 
     @Column(length = 255)
     private String description;
-
-    @JsonBackReference
-    @ManyToOne
-    @JoinColumn(name = "companyId", nullable = false)
-    private Company company;
-
 
     public Product merge(Product other) {
         super.merge(other);
@@ -61,11 +53,4 @@ public class Product extends BaseObject {
         this.description = description;
     }
 
-    public Company getCompany() {
-        return company;
-    }
-
-    public void setCompany(Company company) {
-        this.company = company;
-    }
-}
+ }

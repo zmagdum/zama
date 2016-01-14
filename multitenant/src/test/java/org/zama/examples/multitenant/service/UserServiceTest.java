@@ -3,15 +3,13 @@ package org.zama.examples.multitenant.service;
 import org.assertj.core.api.StrictAssertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.repository.config.RepositoryConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
-import org.zama.examples.multitenant.Application;
 import org.zama.examples.multitenant.config.SecurityConfiguration;
-import org.zama.examples.multitenant.model.Company;
+import org.zama.examples.multitenant.model.master.Company;
 
 import javax.inject.Inject;
 import java.time.LocalDateTime;

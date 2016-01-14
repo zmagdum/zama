@@ -9,8 +9,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.JpaVendorAdapter;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 /**
@@ -19,7 +24,10 @@ import javax.sql.DataSource;
  * @author Zakir Magdum
  */
 @Configuration
-@EnableJpaRepositories("org.zama.examples.multitenant.repository")
+@EnableJpaRepositories(
+        entityManagerFactoryRef = "masterEntityManager",
+        transactionManagerRef = "masterTransactionManager",
+        basePackages = {"org.zama.examples.multitenant.repository.master"})
 @EnableTransactionManagement
 public class DatabaseConfiguration {
     private final static Logger LOGGER = LoggerFactory.getLogger(DatabaseConfiguration.class);
@@ -58,5 +66,25 @@ public class DatabaseConfiguration {
         sl.setChangeLog("classpath:dbchangelog.xml");
         sl.setShouldRun(true);
         return sl;
+    }
+
+    @Bean(name = "masterEntityManager")
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(){
+        JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+        LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
+        em.setDataSource(dataSource());
+        em.setPackagesToScan(new String[]{"org.zama.examples.multitenant.model.master"});
+        em.setJpaVendorAdapter(vendorAdapter);
+        //em.setJpaProperties(additionalJpaProperties());
+        em.setPersistenceUnitName("master");
+
+        return em;
+    }
+
+    @Bean(name = "masterTransactionManager")
+    public JpaTransactionManager transactionManager(EntityManagerFactory masterEntityManager){
+        JpaTransactionManager transactionManager = new JpaTransactionManager();
+        transactionManager.setEntityManagerFactory(masterEntityManager);
+        return transactionManager;
     }
 }

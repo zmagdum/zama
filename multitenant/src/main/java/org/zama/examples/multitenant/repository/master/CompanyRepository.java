@@ -1,7 +1,7 @@
-package org.zama.examples.multitenant.repository;
+package org.zama.examples.multitenant.repository.master;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.zama.examples.multitenant.model.Company;
+import org.zama.examples.multitenant.model.master.Company;
 
 import java.util.Optional;
 

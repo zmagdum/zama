@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="1" author="zmagdum" context="production">
+        <createTable tableName="product">
+            <column name="id" autoIncrement="true" type="BIGINT UNSIGNED">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(128)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="product_id" type="varchar(128)"/>
+            <column name="price" type="DOUBLE"/>
+            <column name="description" type="varchar(256)"/>
+            <column name="created" type="TIMESTAMP"/>
+            <column name="updated" type="TIMESTAMP"/>
+            <column name="deleted" type="TIMESTAMP"/>
+        </createTable>
+
+    </changeSet>
+
+    <changeSet id="2" author="zmagdum" context="test">
+        <customChange class="org.zama.examples.multitenant.util.DataLoaderTask">
+            <param name="productFileName" value="/data/product.csv" />
+        </customChange>
+    </changeSet>
+
+</databaseChangeLog>

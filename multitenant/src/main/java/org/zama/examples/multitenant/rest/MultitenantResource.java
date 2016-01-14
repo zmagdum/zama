@@ -7,11 +7,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.zama.examples.multitenant.model.Company;
-import org.zama.examples.multitenant.model.Product;
-import org.zama.examples.multitenant.model.User;
-import org.zama.examples.multitenant.repository.ProductRepository;
-import org.zama.examples.multitenant.repository.UserRepository;
+import org.zama.examples.multitenant.model.master.Company;
+import org.zama.examples.multitenant.model.tenant.Product;
+import org.zama.examples.multitenant.model.master.User;
+import org.zama.examples.multitenant.repository.tenant.ProductRepository;
+import org.zama.examples.multitenant.repository.master.UserRepository;
 
 import javax.annotation.Resource;
 import java.security.Principal;
@@ -24,8 +24,8 @@ import java.util.*;
  */
 @RestController
 @RequestMapping("/")
-public class HelloWorldResource {
-    private static final Logger LOGGER = LoggerFactory.getLogger(HelloWorldResource.class);
+public class MultitenantResource {
+    private static final Logger LOGGER = LoggerFactory.getLogger(MultitenantResource.class);
     @Resource
     private ProductRepository productRepository;
 
@@ -50,7 +50,7 @@ public class HelloWorldResource {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) auth.getPrincipal();
         LOGGER.info("Getting products for user {} company {}", user.getName(), user.getCompany().getCompanyKey());
-        List<Product> products = productRepository.findByCompanyKey(user.getCompany().getCompanyKey());
+        List<Product> products = productRepository.findAll();
         LOGGER.info("Found products {} {}", user.getCompany().getName(), products.size());
         return products;
     }

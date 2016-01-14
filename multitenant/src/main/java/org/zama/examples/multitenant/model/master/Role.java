@@ -1,4 +1,6 @@
-package org.zama.examples.multitenant.model;
+package org.zama.examples.multitenant.model.master;
+
+import org.zama.examples.multitenant.model.BaseObject;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

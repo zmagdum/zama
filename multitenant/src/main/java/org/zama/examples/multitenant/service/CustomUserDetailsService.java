@@ -8,8 +8,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.zama.examples.multitenant.model.User;
-import org.zama.examples.multitenant.repository.UserRepository;
+import org.zama.examples.multitenant.model.master.User;
+import org.zama.examples.multitenant.repository.master.UserRepository;
 
 import java.util.Optional;
 

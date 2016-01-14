@@ -1,9 +1,10 @@
-package org.zama.examples.multitenant.model;
+package org.zama.examples.multitenant.model.master;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.zama.examples.multitenant.model.BaseObject;
 
 import javax.persistence.*;
 import java.util.*;
