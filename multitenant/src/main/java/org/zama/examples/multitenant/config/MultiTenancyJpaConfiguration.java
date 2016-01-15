@@ -13,12 +13,15 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.zama.examples.multitenant.model.tenant.Product;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -49,7 +52,32 @@ public class MultiTenancyJpaConfiguration {
     @Autowired
     private CurrentTenantIdentifierResolver currentTenantIdentifierResolver;
 
+    @Bean
+    public JpaVendorAdapter jpaVendorAdapter() {
+        return new HibernateJpaVendorAdapter();
+    }
+
+
     @Bean(name = "tenantEntityManager")
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource,
+                                                                       MultiTenantConnectionProvider multiTenantConnectionProvider,
+                                                                       CurrentTenantIdentifierResolver tenantIdentifierResolver) {
+        LocalContainerEntityManagerFactoryBean emfBean = new LocalContainerEntityManagerFactoryBean();
+        emfBean.setDataSource(dataSource);
+        emfBean.setPackagesToScan(Product.class.getPackage().getName());
+        emfBean.setJpaVendorAdapter(jpaVendorAdapter());
+
+        Map<String, Object> jpaProperties = new HashMap<>();
+        jpaProperties.put(org.hibernate.cfg.Environment.MULTI_TENANT,
+                MultiTenancyStrategy.SCHEMA);
+        jpaProperties.put(org.hibernate.cfg.Environment.MULTI_TENANT_CONNECTION_PROVIDER,
+                multiTenantConnectionProvider);
+        jpaProperties.put(org.hibernate.cfg.Environment.MULTI_TENANT_IDENTIFIER_RESOLVER,
+                tenantIdentifierResolver);
+        emfBean.setJpaPropertyMap(jpaProperties);
+        return emfBean;
+    }
+
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(EntityManagerFactoryBuilder builder) {
         Map<String, Object> hibernateProps = new LinkedHashMap<>();
         hibernateProps.putAll(jpaProperties.getHibernateProperties(dataSource));

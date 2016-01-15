@@ -19,7 +19,7 @@ import java.util.Optional;
  * @author Zakir Magdum
  */
 @Service
-@Transactional
+@Transactional("masterTransactionManager")
 public class UserService {
     @Inject
     private UserRepository userRepository;

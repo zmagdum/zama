@@ -13,7 +13,4 @@ import java.util.Optional;
  */
 public interface ProductRepository extends JpaRepository<Product, Long> {
     Optional<Product> findOneByName(String name);
-
-    @Query("FROM Product AS p WHERE p.company.companyKey = ?1")
-    List<Product> findByCompanyKey(String companyName);
 }

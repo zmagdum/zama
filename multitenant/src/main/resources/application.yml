@@ -27,4 +27,4 @@ spring:
 
 logging:
     level:
-        org.springframework.security: WARN
+        org.springframework.security: DEBUG

@@ -25,7 +25,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ComponentScan(basePackages = "org.zama.examples.multitenant.service")
 @SpringApplicationConfiguration(classes = {RepositoryConfiguration.class, SecurityConfiguration.class})
-@Transactional
+@Transactional("masterTransactionManager")
 public class UserServiceTest {
 
     @Inject

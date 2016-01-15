@@ -22,7 +22,8 @@ public class CurrentTenantIdentifierResolverImpl implements CurrentTenantIdentif
                     return identifier;
                 }
             }
-            throw new IllegalArgumentException("Current Tenant Identifier can not be determined");
+            return "unknown";
+            //throw new IllegalArgumentException("Current Tenant Identifier can not be determined");
         }
 
         @Override

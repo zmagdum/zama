@@ -19,7 +19,7 @@ import java.util.Optional;
  * @author Zakir Magdum
  */
 @Service
-@Transactional(readOnly = true)
+@Transactional(value="masterTransactionManager", readOnly = true)
 public class CustomUserDetailsService implements UserDetailsService {
     private static final Logger LOGGER = LoggerFactory.getLogger(CustomUserDetailsService.class);
     @Autowired

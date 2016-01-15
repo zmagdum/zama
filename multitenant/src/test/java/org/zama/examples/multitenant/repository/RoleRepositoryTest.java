@@ -21,7 +21,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = {RepositoryConfiguration.class})
-@Transactional
+@Transactional("masterTransactionManager")
 public class RoleRepositoryTest {
 
     @Inject
