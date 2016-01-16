@@ -4,6 +4,8 @@ import org.hibernate.MultiTenancyStrategy;
 import org.hibernate.cfg.Environment;
 import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
 import org.hibernate.engine.jdbc.connections.spi.MultiTenantConnectionProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -39,6 +41,7 @@ import java.util.Map;
         basePackages = {"org.zama.examples.multitenant.repository.tenant"})
 @EnableTransactionManagement
 public class MultiTenancyJpaConfiguration {
+    private final static Logger LOGGER = LoggerFactory.getLogger(MultiTenancyJpaConfiguration.class);
 
     @Autowired
     private DataSource dataSource;
@@ -67,14 +70,25 @@ public class MultiTenancyJpaConfiguration {
         emfBean.setPackagesToScan(Product.class.getPackage().getName());
         emfBean.setJpaVendorAdapter(jpaVendorAdapter());
 
-        Map<String, Object> jpaProperties = new HashMap<>();
-        jpaProperties.put(org.hibernate.cfg.Environment.MULTI_TENANT,
-                MultiTenancyStrategy.SCHEMA);
-        jpaProperties.put(org.hibernate.cfg.Environment.MULTI_TENANT_CONNECTION_PROVIDER,
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(org.hibernate.cfg.Environment.MULTI_TENANT, MultiTenancyStrategy.DATABASE);
+        properties.put(org.hibernate.cfg.Environment.MULTI_TENANT_CONNECTION_PROVIDER,
                 multiTenantConnectionProvider);
-        jpaProperties.put(org.hibernate.cfg.Environment.MULTI_TENANT_IDENTIFIER_RESOLVER,
+        properties.put(org.hibernate.cfg.Environment.MULTI_TENANT_IDENTIFIER_RESOLVER,
                 tenantIdentifierResolver);
-        emfBean.setJpaPropertyMap(jpaProperties);
+
+//hibernate.cache.use_query_cache false
+//hibernate.cache.use_second_level_cache false
+//hibernate.hbm2ddl.auto validate
+//hibernate.generate_statistics true
+//hibernate.ejb.naming_strategy org.hibernate.cfg.ImprovedNamingStrategy
+        properties.put("hibernate.ejb.naming_strategy", "org.hibernate.cfg.ImprovedNamingStrategy");
+
+//        for (Map.Entry<String, String> entry : jpaProperties.getHibernateProperties(dataSource).entrySet()) {
+//            LOGGER.info("Adding hibernate properties {} {}", entry.getKey(), entry.getValue());
+//            properties.put(entry.getKey(), entry.getValue());
+//        }
+        emfBean.setJpaPropertyMap(properties);
         return emfBean;
     }
 

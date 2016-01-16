@@ -39,18 +39,21 @@ public class ProductLoaderTask implements CustomTaskChange {
     public void execute(Database database) throws CustomChangeException {
         JdbcConnection databaseConnection = (JdbcConnection) database.getConnection();
         try {
-            Set<InputStream> streams = resourceAccessor.getResourcesAsStream(productFileName);
-            if (streams.size() < 1) {
+            InputStream stream = Thread.currentThread().getContextClassLoader().getResourceAsStream(productFileName);
+            if (stream == null) {
                 throw new CustomChangeException("Product data file not found");
             }
-            Reader in = new InputStreamReader(streams.iterator().next());
+            Reader in = new InputStreamReader(stream);
             Iterable<CSVRecord> records = CSVFormat.EXCEL.withHeader().parse(in);
 
             for (CSVRecord record : records) {
+                if (!database.getDefaultCatalogName().equals(record.get("company_key"))) {
+                    continue;
+                }
                 PreparedStatement statement = databaseConnection.prepareStatement (
                         "INSERT INTO product(name,product_id,price,description) VALUES('" +
-                                record.get("name") + "','" + record.get("product_id") + "','" + record.get("price")
-                                + "','" + record.get("description") + ")");
+                                record.get("name").replaceAll("'", "''") + "','" + record.get("product_id") + "','" + record.get("price")
+                                + "','" + record.get("description").replaceAll("'", "''") + "')");
                 statement.execute ();
                 statement.close ();
             }

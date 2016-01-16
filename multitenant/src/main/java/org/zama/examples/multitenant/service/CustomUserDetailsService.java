@@ -8,7 +8,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.zama.examples.multitenant.model.master.Company;
 import org.zama.examples.multitenant.model.master.User;
+import org.zama.examples.multitenant.repository.master.CompanyRepository;
 import org.zama.examples.multitenant.repository.master.UserRepository;
 
 import java.util.Optional;
@@ -24,6 +26,9 @@ public class CustomUserDetailsService implements UserDetailsService {
     private static final Logger LOGGER = LoggerFactory.getLogger(CustomUserDetailsService.class);
     @Autowired
     private UserRepository userDao;
+
+    @Autowired
+    private CompanyRepository companyRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

@@ -26,8 +26,8 @@
     </changeSet>
 
     <changeSet id="2" author="zmagdum" context="test">
-        <customChange class="org.zama.examples.multitenant.util.DataLoaderTask">
-            <param name="productFileName" value="/data/product.csv" />
+        <customChange class="org.zama.examples.multitenant.util.ProductLoaderTask">
+            <param name="productFileName" value="data/product.csv" />
         </customChange>
     </changeSet>
 
