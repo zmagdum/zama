@@ -97,13 +97,17 @@ angular.module('hello').config(function($routeProvider, $httpProvider) {
             });
         }
 
-    }).controller('productlist', function($scope, $uibModal, $http, $log) {
-        $http.get('/products').success(function(data) {
-            $scope.products = data;
-        })
+    }).controller('productlist', function($rootScope, $scope, $uibModal, $http, $log) {
         $http.get('/companyByUserName/'+$scope.user).success(function(data) {
             $scope.company = data;
         })
+
+        $http.get('/products').success(function(data) {
+            // storing product in root scope so that we can rewrite it from productDialogCtrl
+            // setup service so that we can communicate from two controllers
+             $rootScope.products = data;
+        })
+
         $scope.animationsEnabled = true;
         $scope.addProduct = function (size) {
             var modalInstance = $uibModal.open({
@@ -123,19 +127,17 @@ angular.module('hello').config(function($routeProvider, $httpProvider) {
 
             modalInstance.result.then(function (selectedItem) {
                 $scope.product = selectedItem;
-                console.log("modal dismissed", $scope.product);
             }, function () {
                 $log.info('Modal dismissed at: ' + new Date());
             });
         };
-    }).controller('productDialogCtrl', function($scope, $uibModalInstance, $http, products, company) {
+    }).controller('productDialogCtrl', function($rootScope, $scope, $uibModalInstance, $http, products, company) {
         $scope.ok = function () {
             console.log("modal ok", $scope.product, company, $scope.user);
             $scope.product.companyId = company.companyKey;
             $http.post('/product', $scope.product).success(function(data, status, headers) {
-                alert("Product added");
                 $http.get('/products').success(function(data) {
-                    $scope.products = data;
+                    $rootScope.products = data;
                 })
             });
             $uibModalInstance.close($scope.product);
