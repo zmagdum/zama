@@ -4,18 +4,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.zama.examples.multitenant.model.Company;
 import org.zama.examples.multitenant.model.Product;
+import org.zama.examples.multitenant.model.ProductDTO;
 import org.zama.examples.multitenant.model.User;
 import org.zama.examples.multitenant.repository.CompanyRepository;
 import org.zama.examples.multitenant.repository.ProductRepository;
 import org.zama.examples.multitenant.repository.UserRepository;
 
 import javax.annotation.Resource;
-import javax.websocket.server.PathParam;
 import java.security.Principal;
 import java.util.*;
 
@@ -33,6 +31,9 @@ public class HelloWorldResource {
 
     @Resource
     private UserRepository userRepository;
+
+    @Resource
+    private CompanyRepository companyRepository;
 
     @RequestMapping("/resource")
     public Map<String,Object> home() {
@@ -55,6 +56,21 @@ public class HelloWorldResource {
         List<Product> products = productRepository.findByCompanyKey(user.getCompany().getCompanyKey());
         LOGGER.info("Found products {} {}", user.getCompany().getName(), products.size());
         return products;
+    }
+
+    @RequestMapping(value = "/product", method = RequestMethod.POST)
+    public @ResponseBody Product saveProduct(@RequestBody ProductDTO product) {
+        Optional<Company> comp = companyRepository.findOneByCompanyKey(product.getCompanyId());
+        Optional<Product> pp = productRepository.findOneByName(product.getName());
+        Product prod = pp.isPresent() ? pp.get() : new Product();
+        prod.setName(product.getName());
+        prod.setDescription(product.getDescription());
+        prod.setPrice(product.getPrice());
+        prod.setProductId(product.getProductId());
+        if (comp.isPresent()) {
+            prod.setCompany(comp.get());
+        }
+        return productRepository.save(prod);
     }
 
     @RequestMapping("/companyByUserName/{userName}")

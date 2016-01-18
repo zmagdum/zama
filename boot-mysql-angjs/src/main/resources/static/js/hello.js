@@ -103,9 +103,9 @@ angular.module('hello').config(function($routeProvider, $httpProvider) {
         })
         $http.get('/companyByUserName/'+$scope.user).success(function(data) {
             $scope.company = data;
+            console.log("Sttring company into scope", $scope.company)
         })
 
-        $scope.items = ['item1', 'item2', 'item3'];
         $scope.animationsEnabled = true;
         $scope.addProduct = function (size) {
             var modalInstance = $uibModal.open({
@@ -114,8 +114,11 @@ angular.module('hello').config(function($routeProvider, $httpProvider) {
                 controller: 'productDialogCtrl',
                 size: size,
                 resolve: {
-                    items: function () {
-                        return $scope.items;
+                    products: function () {
+                        return $scope.products;
+                    },
+                    company: function () {
+                        return $scope.company;
                     }
                 }
             });
@@ -127,9 +130,16 @@ angular.module('hello').config(function($routeProvider, $httpProvider) {
                 $log.info('Modal dismissed at: ' + new Date());
             });
         };
-    }).controller('productDialogCtrl', function($scope, $uibModalInstance) {
+    }).controller('productDialogCtrl', function($scope, $uibModalInstance, $http, products, company) {
         $scope.ok = function () {
-            console.log("modal ok", $scope.product);
+            console.log("modal ok", $scope.product, company, $scope.user);
+            $scope.product.companyId = company.companyKey;
+            $http.post('/product', $scope.product).success(function(data, status, headers) {
+                alert("Product added");
+                $http.get('/products').success(function(data) {
+                    $scope.products = data;
+                })
+            });
             $uibModalInstance.close($scope.product);
         };
 
