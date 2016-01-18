@@ -4,9 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.zama.examples.multitenant.model.master.Company;
 import org.zama.examples.multitenant.model.tenant.Product;
 import org.zama.examples.multitenant.model.master.User;
@@ -53,6 +51,18 @@ public class MultitenantResource {
         List<Product> products = productRepository.findAll();
         LOGGER.info("Found products {} {}", user.getCompany().getName(), products.size());
         return products;
+    }
+
+    @RequestMapping(value = "/product", method = RequestMethod.POST)
+    public @ResponseBody
+    Product saveProduct(@RequestBody Product product) {
+        Optional<Product> pp = productRepository.findOneByName(product.getName());
+        Product prod = pp.isPresent() ? pp.get() : new Product();
+        prod.setName(product.getName());
+        prod.setDescription(product.getDescription());
+        prod.setPrice(product.getPrice());
+        prod.setProductId(product.getProductId());
+        return productRepository.save(prod);
     }
 
     @RequestMapping("/companyByUserName/{userName}")

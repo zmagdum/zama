@@ -1,0 +1,43 @@
+<div class="modal-header">
+    <h3 class="modal-title">Add new product</h3>
+</div>
+<form name="productForm">
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="product-name-text" class="control-label">Name:</label>
+            <input type="text" class="form-control" name="name" id="product-name-text" ng-model="product.name"
+                   required/>
+
+            <p ng-show="productForm.name.$invalid && !productForm.name.$pristine" class="help-block">Product name is
+                required.</p>
+        </div>
+        <div class="form-group">
+            <label for="product-id-text" class="control-label">ID:</label>
+            <input class="form-control" name="productId" id="product-id-text" ng-model="product.productId" required
+                   ng-minlength="3" ng-maxlength="10"/>
+
+            <p ng-show="productForm.productId.$error.minlength" class="help-block">Product ID is too short.</p>
+
+            <p ng-show="productForm.productId.$error.maxlength" class="help-block">Product ID is too long.</p>
+        </div>
+        <div class="form-group">
+            <label for="product-price-text" class="control-label">Price ($):</label>
+            <input class="form-control" type="number" name="price" id="product-price-text" ng-model="product.price" required min="0" max="50000"/>
+
+            <p ng-show="productForm.price.$invalid && !productForm.price.$pristine" class="help-block">Product price is
+                required and should be from 0 to 50000.</p>
+        </div>
+        <div class="form-group">
+            <label for="product-description-text" class="control-label">Description:</label>
+            <textarea class="form-control" name="description" id="product-description-text"
+                      ng-model="product.description" required></textarea>
+
+            <p ng-show="productForm.description.$invalid && !productForm.description.$pristine" class="help-block">
+                Product description is required.</p>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="ok()" ng-disabled="productForm.$invalid">OK</button>
+        <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+    </div>
+</form>

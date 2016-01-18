@@ -2,6 +2,7 @@ package org.zama.examples.multitenant.repository.tenant;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.zama.examples.multitenant.model.tenant.Product;
 
 import java.util.List;

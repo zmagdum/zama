@@ -1,4 +1,8 @@
-<h1>Products for {{company.name}}</h1>
+<div class="row">
+    <div class="col-lg-11"><h1>Products for {{company.name}}</h1></div>
+    <div class="col-lg-1"><button type="button" class="btn btn-default" ng-click="addProduct()">Add</button></div>
+</div>
+
 <div ng-controller="productlist" class="container" ng-show="authenticated">
     <table class="table table-striped">
         <tbody>
