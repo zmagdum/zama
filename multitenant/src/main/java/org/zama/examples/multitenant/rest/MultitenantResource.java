@@ -74,8 +74,9 @@ public class MultitenantResource {
         return null;
     }
 
-//    @RequestMapping("/login")
-//    public String login() {
-//        return "forward:/";
-//    }
+    // IN A REAL APP THIS SHOULD NEVER BE THERE.
+    @RequestMapping("/users")
+    public List<User> listUsers() {
+        return userRepository.findAll();
+    }
 }

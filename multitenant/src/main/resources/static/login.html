@@ -12,3 +12,21 @@
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+
+<div class="container">
+    <h5>Available Users. THIS IS JUST FOR THE DEMO. Login using one of these and you should see differet product list for the company they belong to</h5>
+    <table class="table table-striped">
+        <thead>
+            <th>Company</th>
+            <th>Name</th>
+            <th>Password</th>
+        </thead>
+        <tbody>
+        <tr class="product" ng-repeat="user in users">
+            <td>{{user.name.substring(0, user.name.indexOf('-'))}}</td>
+            <td>{{user.name}}</td>
+            <td>password</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

@@ -97,6 +97,11 @@ angular.module('hello').config(function($routeProvider, $httpProvider) {
             });
         }
 
+        $http.get('/users').success(function(data) {
+            console.log('found users', data)
+            $scope.users = data;
+        })
+
     }).controller('productlist', function($rootScope, $scope, $uibModal, $http, $log) {
         $http.get('/companyByUserName/'+$scope.user).success(function(data) {
             $scope.company = data;
