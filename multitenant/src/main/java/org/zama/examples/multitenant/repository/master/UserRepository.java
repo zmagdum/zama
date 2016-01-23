@@ -6,7 +6,7 @@ import org.zama.examples.multitenant.model.master.User;
 import java.util.Optional;
 
 /**
- * RoleRepository.
+ * UserRepository.
  * @author Zakir Magdum
  */
 public interface UserRepository extends JpaRepository<User, Long> {

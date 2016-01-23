@@ -27,9 +27,6 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
     private UserRepository userDao;
 
-    @Autowired
-    private CompanyRepository companyRepository;
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         LOGGER.trace("Looking for user for {}", username);

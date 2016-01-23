@@ -6,8 +6,8 @@ spring:
         dataSourceClassName: com.mysql.jdbc.jdbc2.optional.MysqlDataSource
         url: jdbc:mysql://localhost:3306/multimaster?createDatabaseIfNotExist=true
         poolName: SpringBootHikariCP
-        username: arrayiq-server
-        password: ArrayIQ1234
+        username: root
+        password:
         testWhileIdle: true
         validationQuery: SELECT 1
 

@@ -6,7 +6,7 @@ import org.zama.examples.multitenant.model.master.Company;
 import java.util.Optional;
 
 /**
- * RoleRepository.
+ * CompanyRepository.
  * @author Zakir Magdum
  */
 public interface CompanyRepository extends JpaRepository<Company, Long> {
