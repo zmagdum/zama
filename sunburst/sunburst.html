@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Sequences sunburst</title>
+    <script src="d3.v3.min.js"></script>
+</head>
+<body>
+<div id="main">
+</div>
+<script type="text/javascript" src="zama.sunburst.js"></script>
+<script type="text/javascript">
+    d3.json("arraySummary.json", function(json) {
+        var arrays = json.filter(function(d) {return d.capacity && d.freeCapacity})
+        arrays.filter(function (d) {return !d.processed}).forEach(function(d) {
+            d.capacity = d.capacity/1024;
+            d.freeCapacity = d.freeCapacity/1024;
+            d.usedCapacity = d.capacity - d.freeCapacity;
+            d.processed = true;
+        });
+        var arraysWithCapType = [];
+        arrays.forEach(function (arr) {
+            var ua = {id:arr.id, name:arr.name, subType: arr.subType, model: arr.model, location: arr.location,
+                businessUnit: arr.businessUnit, capacity: arr.capacity, size: arr.usedCapacity, capType: "used", key: arr.name}
+            arraysWithCapType.push(ua);
+            var fa = {id:arr.id, name:arr.name, subType: arr.subType, model: arr.model, location: arr.location,
+                businessUnit: arr.businessUnit, capacity: arr.capacity, size: arr.freeCapacity, capType: "free", key: arr.name}
+            arraysWithCapType.push(fa);
+        })
+        var zs = new zama.Sunburst({groupings: [{key:'capType', name: 'Capacity', enabled: true},
+            {key: 'location', name: 'Location', enabled: true},
+            {key: 'businessUnit', name: 'Tier', enabled: true},
+            {key: 'subType', name: 'Type', enabled: true}],
+        formatValue: function(d) {return d.toFixed(1)+'TB'}},
+                arraysWithCapType);
+        zs.render();
+    });
+    // Hack to make this example display correctly in an iframe on bl.ocks.org
+    d3.select(self.frameElement).style("height", "700px");
+</script>
+</body>
+</html>
