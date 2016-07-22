@@ -31,7 +31,10 @@
             {key: 'location', name: 'Location', enabled: true},
             {key: 'businessUnit', name: 'Tier', enabled: true},
             {key: 'subType', name: 'Type', enabled: true}],
-        formatValue: function(d) {return d.toFixed(1)+'TB'}},
+        formatValue: function(d) {return d.toFixed(1)+'TB'},
+        data: {
+            hideLeaves: true
+        }},
                 arraysWithCapType);
         zs.render();
     });

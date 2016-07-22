@@ -23,7 +23,7 @@ zama.Sunburst = function(config, data) {
     this.config.legend.round = this.config.legend.round || 3;
     this.config.groups = this.config.groups || {};
     this.config.groups.float = this.config.groups.float || 'left';
-    this.config.groups.width = this.config.groups.width || 75;
+    this.config.groups.width = this.config.groups.width || 120;
     this.config.groups.height = this.config.groups.height || 20;
     this.config.groups.spacing = this.config.groups.spacing || 3;
     this.config.groups.round = this.config.legend.round || 3;
@@ -32,6 +32,9 @@ zama.Sunburst = function(config, data) {
     this.config.groups.round = this.config.legend.round || 3;
     this.config.formatValue = this.config.formatValue || function(d) {return d.toFixed(1);};
     this.config.arcLabelIdPrefix = this.config.arcLabelIdPrefix || Math.floor((Math.random() * 100) + 1);
+    this.config.data.hideLeaves = this.config.data.hideLeaves || false;
+    this.config.data.idColumn = this.config.data.idColumn || 'id';
+    this.config.data.labelThreshold = this.config.data.labelThreshold || 0.3;
     this.groupings = data.groupings;
     this.hdata = this.buildHierarchy(data, config.groupings);
 }
@@ -85,11 +88,15 @@ zama.Sunburst.prototype.render = function() {
         d.label = "";
         if (!d.name) {
             legendColors[d.key] = me.config.colors(d.key);
-            d.label = d.dx > 0.2 ? d.key + ' ('+d.value.toFixed(0)+')' : "";
+            d.label = d.dx > me.config.data.labelThreshold ? d.key + ' ('+d.value.toFixed(0)+')' : "";
         }
         d.name = d.key
     })
 
+    if (me.config.data.hideLeaves) {
+        nodes = nodes.filter(function (d) { return d[me.config.data.idColumn] === undefined})
+    }
+    
     drawLegend(legendColors, me.config.groupings);
 
     var g = me.graph.data([this.hdata]).selectAll("path")
@@ -287,12 +294,53 @@ zama.Sunburst.prototype.render = function() {
                         me.render();
                     }
                 });
+
         g.append("svg:text")
-            .attr("x", me.config.groups.width / 2)
+            .attr("x", 10)
             .attr("y", me.config.groups.height / 2)
             .attr("dy", "0.35em")
-            .attr("text-anchor", "middle")
+            .attr("text-anchor", "left")
             .text(function(d) { return d.value.name; });
+        var start = (me.config.groupings.length+1) * (me.config.groups.height + me.config.groups.spacing);
+        groupings.append("svg:text")
+            .attr("text-anchor", "left")
+            .style("font-size", 10)
+            .append("svg:tspan")
+            .attr("x", 10)
+            .attr("y", start)
+            .text("Click -- move down")
+            .append("svg:tspan")
+            .attr("x", 10)
+            .attr("y", start+20)
+            .text("Cmd+Click -- move up")
+            .append("svg:tspan")
+            .attr("x", 10)
+            .attr("y", start+40)
+            .text("Alt-Click -- Enable/Disable")
+        start += 60;
+        g = groupings.append("svg:g")
+            .attr("transform", function (d, i) {
+                return "translate(0," + start + ")";
+            });
+        g.append("svg:rect")
+            .attr("rx", me.config.groups.round)
+            .attr("ry", me.config.groups.round)
+            .attr("width", me.config.groups.width)
+            .attr("height", me.config.groups.height)
+            .style("fill", "#7ff")
+            .on("click", function(d) {
+                me.config.data.hideLeaves = !me.config.data.hideLeaves;
+                me.hdata = me.buildHierarchy(me.data, me.config.groupings);
+                me.render();
+            });
+
+        g.append("svg:text")
+            .attr("x", 10)
+            .attr("y", me.config.groups.height / 2)
+            .attr("dy", "0.35em")
+            .attr("text-anchor", "left")
+            .text(me.config.data.hideLeaves ? "Show Leaf" : "Hide Leaf");
+
     }
 }
 
