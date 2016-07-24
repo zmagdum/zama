@@ -35,6 +35,7 @@ zama.Sunburst = function(config, data) {
     this.config.data.hideLeaves = this.config.data.hideLeaves || false;
     this.config.data.idColumn = this.config.data.idColumn || 'id';
     this.config.data.labelThreshold = this.config.data.labelThreshold || 0.3;
+    this.config.legendVisible = this.config.legendVisible || true;
     this.groupings = data.groupings;
     this.hdata = this.buildHierarchy(data, config.groupings);
 }
@@ -82,11 +83,13 @@ zama.Sunburst.prototype.render = function() {
     var nodes = this.partition.nodes(this.hdata)
         .filter(function(d) {
             return (d.dx > 0.000001); // 0.005 radians = 0.29 degrees
+        }).filter(function (d) {
+            return d.key != 'root';
         });
     var legendColors = {};
     nodes.forEach(function(d) {
         d.label = "";
-        if (!d.name) {
+        if (!d.subType) {
             legendColors[d.key] = me.config.colors(d.key);
             d.label = d.dx > me.config.data.labelThreshold ? d.key + ' ('+d.value.toFixed(0)+')' : "";
         }
@@ -96,7 +99,6 @@ zama.Sunburst.prototype.render = function() {
     if (me.config.data.hideLeaves) {
         nodes = nodes.filter(function (d) { return d[me.config.data.idColumn] === undefined})
     }
-    
     drawLegend(legendColors);
 
     var g = me.graph.data([this.hdata]).selectAll("path")
@@ -145,7 +147,7 @@ zama.Sunburst.prototype.render = function() {
         .text(me.config.formatValue(me.totalSize));
 
     function mouseover(d) {
-       var val = me.config.formatValue(d.value);
+        var val = me.config.formatValue(d.value);
         me.centerText.text(val);
         me.breadCrumGroup.style("visibility", "");
         var sequenceArray = getAncestors(d);
@@ -225,14 +227,35 @@ zama.Sunburst.prototype.render = function() {
 
     function drawLegend(legendColors) {
         var x = me.config.legend.float === 'right' ? me.config.width - me.config.legend.width : 0;
+        var lineHeight = me.config.legend.height + me.config.legend.spacing;
+        var showHideLegendGroup = me.vis.append("g").attr("transform", function(d,i) {return "translate(" + x + ",0)";});
+        showHideLegendGroup.append("svg:rect")
+            .attr("rx", me.config.groups.round)
+            .attr("ry", me.config.groups.round)
+            .attr("width", me.config.groups.width)
+            .attr("height", me.config.groups.height)
+            .style("fill", "#7ff")
+            .on("click", function(d) {
+                me.config.legendVisible = !me.config.legendVisible;
+                me.legend.style("visibility", me.config.legendVisible ? "visible" : "hidden");
+                showHideLegendGroup.select("text").text(me.config.legendVisible ? "Hide Legend" : "Show Legend");
+            });
+        showHideLegendGroup.append("svg:text")
+            .attr("x", 10)
+            .attr("y", me.config.groups.height / 2)
+            .attr("dy", "0.35em")
+            .attr("text-anchor", "left")
+            .text(me.legendVisible ? "Hide Legend" : "Show Legend");
 
-        var legend = me.vis.append("g").attr("transform", function(d,i) {return "translate(" + x + ",0)";});
+        me.legend = me.vis.append("g")
+            .style("visibility", me.config.legendVisible ? "visible" : "hidden")
+            .attr("transform", function(d,i) {return "translate(" + x + "," + lineHeight + ")";});
 
-        var g = legend.selectAll("g")
+        var g = me.legend.selectAll("g")
             .data(d3.entries(legendColors))
             .enter().append("svg:g")
             .attr("transform", function(d, i) {
-                return "translate(0," + i * (me.config.legend.height + me.config.legend.spacing) + ")";
+                return "translate(0," + i * lineHeight + ")";
             });
 
         g.append("svg:rect")
@@ -263,26 +286,26 @@ zama.Sunburst.prototype.render = function() {
             .attr("height", me.config.groups.height)
             .style("fill", function(d) {return d.value.enabled ? me.config.groups.enabledFill : me.config.groups.disabledFill;})
             .on("click", function(d) {
-                    console.log("clicked rectangle", d, d3.event.shiftKey, d3.event.altKey);
-                    var oldIndex = d.key;
-                    var newIndex = oldIndex;
-                    if (d3.event.shiftKey && newIndex > 0) {
-                        newIndex--;
-                    } else if (d3.event.altKey) {
-                        me.config.groupings[oldIndex].enabled = !me.config.groupings[oldIndex].enabled;
-                        me.hdata = me.buildHierarchy(me.data, me.config.groupings);
-                        me.render();
-                    } else if (newIndex < (me.config.groupings.length-1)) {
-                        newIndex++;
-                    }
-                    if (oldIndex != newIndex) {
-                        var item = me.config.groupings[oldIndex];
-                        me.config.groupings.splice(oldIndex, 1);
-                        me.config.groupings.splice(newIndex, 0, item);
-                        me.hdata = me.buildHierarchy(me.data, me.config.groupings);
-                        me.render();
-                    }
-                });
+                console.log("clicked rectangle", d, d3.event.shiftKey, d3.event.altKey);
+                var oldIndex = d.key;
+                var newIndex = oldIndex;
+                if (d3.event.shiftKey && newIndex > 0) {
+                    newIndex--;
+                } else if (d3.event.altKey) {
+                    me.config.groupings[oldIndex].enabled = !me.config.groupings[oldIndex].enabled;
+                    me.hdata = me.buildHierarchy(me.data, me.config.groupings);
+                    me.render();
+                } else if (newIndex < (me.config.groupings.length-1)) {
+                    newIndex++;
+                }
+                if (oldIndex != newIndex) {
+                    var item = me.config.groupings[oldIndex];
+                    me.config.groupings.splice(oldIndex, 1);
+                    me.config.groupings.splice(newIndex, 0, item);
+                    me.hdata = me.buildHierarchy(me.data, me.config.groupings);
+                    me.render();
+                }
+            });
 
         g.append("svg:text")
             .attr("x", 10)
@@ -346,5 +369,5 @@ zama.Sunburst.prototype.buildHierarchy = function(data, groupings) {
         })
     })
     var result = nester.entries(data);
-    return {"name": "all", "values": result};
+    return {key: "root", "name": "All", "values": result};
 }
