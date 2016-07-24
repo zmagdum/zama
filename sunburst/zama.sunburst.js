@@ -97,7 +97,7 @@ zama.Sunburst.prototype.render = function() {
         nodes = nodes.filter(function (d) { return d[me.config.data.idColumn] === undefined})
     }
     
-    drawLegend(legendColors, me.config.groupings);
+    drawLegend(legendColors);
 
     var g = me.graph.data([this.hdata]).selectAll("path")
         .data(nodes)
@@ -135,7 +135,6 @@ zama.Sunburst.prototype.render = function() {
 
     me.graph.on("mouseleave", mouseleave);
 
-    // Get total size of the tree = value of root node from partition.
     me.totalSize = path.node().__data__.value;
 
     me.centerText = me.graph.append("svg:g").append("text")
@@ -154,7 +153,6 @@ zama.Sunburst.prototype.render = function() {
         // Fade all the segments.
         d3.selectAll("path").style("opacity", 0.3);
 
-        // Then highlight only those that are an ancestor of the current segment.
         me.vis.selectAll("path")
             .filter(function(node) {
                 return (sequenceArray.indexOf(node) >= 0);
@@ -162,13 +160,9 @@ zama.Sunburst.prototype.render = function() {
             .style("opacity", 1);
     }
 
-// Restore everything to full opacity when moving off the visualization.
     function mouseleave(d) {
-        // Hide the breadcrumb trail
         me.breadCrumGroup.style("visibility", "hidden");
-        // Deactivate all segments during transition.
         d3.selectAll("path").on("mouseover", null);
-        // Transition each segment to full opacity and then reactivate it.
         d3.selectAll("path")
             .transition()
             .duration(1000)
@@ -196,20 +190,17 @@ zama.Sunburst.prototype.render = function() {
         points.push(me.config.breadCrum.width + me.config.breadCrum.tail + "," + (me.config.breadCrum.height / 2));
         points.push(me.config.breadCrum.width + "," + me.config.breadCrum.height);
         points.push("0," + me.config.breadCrum.height);
-        if (i > 0) { // Leftmost breadcrumb; don't include 6th vertex.
+        if (i > 0) {
             points.push(me.config.breadCrum.tail + "," + (me.config.breadCrum.height / 2));
         }
         return points.join(" ");
     }
 
-// Update the breadcrumb trail to show the current sequence and percentage.
     function updateBreadcrumbs(nodeArray, valueString) {
-        // Data join; key function combines name and depth (= position in sequence).
         var g = me.breadCrumGroup
             .selectAll("g")
             .data(nodeArray, function(d) { return d.name + d.depth; });
 
-        // Add breadcrumb and label for entering nodes.
         var entering = g.enter().append("svg:g");
 
         entering.append("svg:polygon")
@@ -225,16 +216,14 @@ zama.Sunburst.prototype.render = function() {
             .style("fill", "#fff")
             .text(function(d) { return d.name; });
 
-        // Set position for entering and updating nodes.
         g.attr("transform", function(d, i) {
             return "translate(" + i * (me.config.breadCrum.width + me.config.breadCrum.spacing) + ", 0)";
         });
 
-        // Remove exiting nodes.
         g.exit().remove();
     }
 
-    function drawLegend(legendColors, groupings) {
+    function drawLegend(legendColors) {
         var x = me.config.legend.float === 'right' ? me.config.width - me.config.legend.width : 0;
 
         var legend = me.vis.append("g").attr("transform", function(d,i) {return "translate(" + x + ",0)";});

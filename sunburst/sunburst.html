@@ -6,6 +6,7 @@
     <script src="d3.v3.min.js"></script>
 </head>
 <body>
+<h2>Storage utilization accross all datacenters</h2>
 <div id="main">
 </div>
 <script type="text/javascript" src="zama.sunburst.js"></script>
@@ -27,7 +28,7 @@
                 businessUnit: arr.businessUnit, capacity: arr.capacity, size: arr.freeCapacity, capType: "free", key: arr.name}
             arraysWithCapType.push(fa);
         })
-        var zs = new zama.Sunburst({groupings: [{key:'capType', name: 'Capacity', enabled: true},
+        var zs = new zama.Sunburst({parent: "#main", groupings: [{key:'capType', name: 'Capacity', enabled: true},
             {key: 'location', name: 'Location', enabled: true},
             {key: 'businessUnit', name: 'Tier', enabled: true},
             {key: 'subType', name: 'Type', enabled: true}],
