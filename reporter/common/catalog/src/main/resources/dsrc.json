@@ -1,0 +1,33 @@
+{
+  "$schema": "http://zama.org/model/app/schema#",
+  "definitions": {
+    "arrayGroup": {
+      "type": "object",
+      "applyTo": "app",
+      "allOf": [
+        {
+          "$ref": "definitions.json#/basicGroup"
+        },
+        {
+          "$ref": "definitions.json#/capacityGroup"
+        },
+        {
+          "$ref": "definitions.json#/businessGroup"
+        },
+        {
+          "$ref": "definitions.json#/basicPerformanceGroup"
+        },
+        {
+          "properties": {
+            "createdBy": {
+              "type": "string",
+              "label": "Created By"
+            }
+          },
+          "required": [
+          ]
+        }
+      ]
+    }
+  }
+}

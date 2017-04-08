@@ -1,0 +1,54 @@
+{
+  "$schema": "http://zama.org/model/controller/schema#",
+  "definitions": {
+    "arrayGroup": {
+      "type": "object",
+      "applyTo": "controller",
+      "allOf": [
+        {
+          "$ref": "definitions.json#/basicGroup"
+        },
+        {
+          "$ref": "definitions.json#/hardwareGroup"
+        },
+        {
+          "$ref": "definitions.json#/softwareGroup"
+        },
+        {
+          "$ref": "definitions.json#/basicPerformanceGroup"
+        },
+        {
+          "properties": {
+            "cache": {
+              "type": "int",
+              "label": "Cache",
+              "unit": "MB"
+            },
+            "numOfPorts": {
+              "type": "int",
+              "label": "# Ports"
+            },
+            "numOfLuns": {
+              "type": "int",
+              "label": "# Luns"
+            },
+            "conType": {
+              "type": "string",
+              "label": "Controller Type"
+            },
+            "ports": {
+              "type": "array",
+              "label": "Ports",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "cache"
+          ]
+        }
+      ]
+    }
+  }
+}

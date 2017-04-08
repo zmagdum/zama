@@ -1,0 +1,18 @@
+{
+  "$schema": "http://zama.org/model/controller/vmax/schema#",
+  "type": "object",
+  "applyTo": "controller",
+  "allOf": [
+    {
+      "$ref": "controller.json#/controllerGroup"
+    },
+    {
+      "properties": {
+        "adapterNumber": {
+          "type": "int",
+          "label": "Adapter Number"
+        }
+      }
+    }
+  ]
+}

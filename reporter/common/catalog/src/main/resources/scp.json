@@ -1,0 +1,41 @@
+{
+  "$schema": "http://zama.org/model/ccr/schema#",
+  "definitions": {
+    "arrayGroup": {
+      "type": "object",
+      "applyTo": "ccr",
+      "allOf": [
+        {
+          "$ref": "definitions.json#/basicGroup"
+        },
+        {
+          "$ref": "definitions.json#/softwareGroup"
+        },
+        {
+          "properties": {
+            "managementIP": {
+              "type": "string",
+              "label": "Management IP"
+            },
+            "hosts": {
+              "type": "array",
+              "label": "Hosts",
+              "items": {
+                "type": "string"
+              }
+            },
+            "disks": {
+              "type": "array",
+              "label": "Disks",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+          ]
+        }
+      ]
+    }
+  }
+}

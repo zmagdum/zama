@@ -1,0 +1,35 @@
+{
+  "$schema": "http://zama.org/model/zset/schema#",
+  "definitions": {
+    "arrayGroup": {
+      "type": "object",
+      "applyTo": "zset",
+      "allOf": [
+        {
+          "$ref": "definitions.json#/basicGroup"
+        },
+        {
+          "properties": {
+            "fabrics": {
+              "type": "string",
+              "label": "Fabric"
+            },
+            "fabricWWN": {
+              "type": "String",
+              "label": "Fabric WWN"
+            },
+            "zones": {
+              "type": "array",
+              "label": "Zones",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+          ]
+        }
+      ]
+    }
+  }
+}

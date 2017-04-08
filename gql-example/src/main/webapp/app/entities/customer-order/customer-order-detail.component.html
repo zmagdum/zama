@@ -1,0 +1,45 @@
+
+<div *ngIf="customerOrder">
+    <h2><span>Customer Order</span> {{customerOrder.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span>Order Date</span></dt>
+        <dd>
+            <span>{{customerOrder.orderDate | date:'medium'}}</span>
+        </dd>
+        <dt><span>Comments</span></dt>
+        <dd>
+            <span>{{customerOrder.comments}}</span>
+        </dd>
+        <dt><span>Total Value</span></dt>
+        <dd>
+            <span>{{customerOrder.totalValue}}</span>
+        </dd>
+        <dt><span>Sales Person</span></dt>
+        <dd>
+            <div *ngIf="customerOrder.salesPersonId">
+                <a [routerLink]="['/sales-person', customerOrder.salesPersonId]">{{customerOrder.salesPersonId}}</a>
+            </div>
+        </dd>
+        <dt><span>Customer</span></dt>
+        <dd>
+            <div *ngIf="customerOrder.customerId">
+                <a [routerLink]="['/customer', customerOrder.customerId]">{{customerOrder.customerId}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'customer-order/'+ customerOrder.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span> Edit</span>
+    </button>
+</div>

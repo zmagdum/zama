@@ -1,0 +1,69 @@
+{
+  "$schema": "http://zama.org/model/port/schema#",
+  "definitions": {
+    "arrayGroup": {
+      "type": "object",
+      "applyTo": "port",
+      "allOf": [
+        {
+          "$ref": "definitions.json#/basicGroup"
+        },
+        {
+          "$ref": "definitions.json#/basicPerformanceGroup"
+        },
+        {
+          "properties": {
+            "portWwn": {
+              "type": "string",
+              "label": "Port WWN"
+            },
+            "nodeWwn": {
+              "type": "int",
+              "label": "Node WWN"
+            },
+            "enabled": {
+              "type": "boolean",
+              "label": "Enabled?"
+            },
+            "speed": {
+              "type": "int",
+              "label": "Speed"
+            },
+            "maxSpeed": {
+              "type": "int",
+              "label": "Max Speed"
+            },
+            "usageRestriction": {
+              "type": "string",
+              "label": "Usage Restriction"
+            },
+            "linkTechnology": {
+              "type": "string",
+              "label": "Link Technology"
+            },
+            "linkStatus": {
+              "type": "string",
+              "label": "Link Status"
+            },
+            "luns": {
+              "type": "array",
+              "label": "Luns",
+              "items": {
+                "type": "string"
+              }
+            },
+            "scps": {
+              "type": "array",
+              "label": "SCPs",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+          ]
+        }
+      ]
+    }
+  }
+}

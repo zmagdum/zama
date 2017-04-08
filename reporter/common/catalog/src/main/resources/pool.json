@@ -1,0 +1,114 @@
+{
+  "$schema": "http://zama.org/model/lun/schema#",
+  "type": "object",
+  "applyTo": "lun",
+  "allOf": [
+    {
+      "$ref": "definitions.json#/basicGroup"
+    },
+    {
+      "$ref": "definitions.json#/capacityGroup"
+    },
+    {
+      "$ref": "definitions.json#/thinCapacityGroup"
+    },
+    {
+      "$ref": "definitions.json#/rawCapacityGroup"
+    },
+    {
+      "$ref": "definitions.json#/fsCapacityGroup"
+    },
+    {
+      "$ref": "definitions.json#/dsCapacityGroup"
+    },
+    {
+      "$ref": "definitions.json#/basicPerformanceGroup"
+    },
+    {
+      "$ref": "definitions.json#/basicPerformanceGroup"
+    },
+    {
+      "$ref": "definitions.json#/hitPerformanceGroup"
+    },
+    {
+      "properties": {
+        "wwn": {
+          "type": "string",
+          "label": "WWN"
+        },
+        "isComposite": {
+          "type": "boolean",
+          "label": "Composite?"
+        },
+        "metaDataCapacity": {
+          "type": "number",
+          "label": "Metadata Capacity",
+          "unit": "GB"
+        },
+        "thinlyProvisioned": {
+          "type": "boolean",
+          "label": "Thinly Provisioned?"
+        },
+        "copyType": {
+          "type": "string",
+          "label": "Copy Type"
+        },
+        "syncState": {
+          "type": "string",
+          "label": "Sync State"
+        },
+        "localCopy": {
+          "type": "string",
+          "label": "Local Copy"
+        },
+        "mapped": {
+          "type": "string",
+          "label": "Mapped?"
+        },
+        "owningController": {
+          "type": "string",
+          "label": "Owning Controller"
+        },
+        "preferredController": {
+          "type": "string",
+          "label": "Preferred Controller"
+        },
+        "pools": {
+          "type": "array",
+          "label": "Pools",
+          "items": {
+            "type": "string"
+          }
+        },
+        "hbas": {
+          "type": "array",
+          "label": "HBAs",
+          "items": {
+            "type": "string"
+          }
+        },
+        "ports": {
+          "type": "array",
+          "label": "Ports",
+          "items": {
+            "type": "string"
+          }
+        },
+        "hostDevices": {
+          "type": "array",
+          "label": "Host Disks",
+          "items": {
+            "type": "string"
+          }
+        },
+        "disks": {
+          "type": "array",
+          "label": "Disks",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  ]
+}

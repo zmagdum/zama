@@ -1,0 +1,25 @@
+{
+  "$schema": "http://zama.org/model/array/vmax/schema#",
+  "type": "object",
+  "applyTo": "array",
+  "allOf": [
+    {
+      "$ref": "array.json#/arrayGroup"
+    },
+    {
+      "properties": {
+        "licenseStatus": {
+          "type": "string",
+          "label": "License Status"
+        },
+        "diskGroups": {
+          "type": "array",
+          "label": "Disk Groups",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  ]
+}

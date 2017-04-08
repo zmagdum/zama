@@ -1,0 +1,85 @@
+{
+  "$schema": "http://zama.org/model/array/vmax/schema#",
+  "type": "object",
+  "applyTo": "array",
+  "allOf": [
+    {
+      "$ref": "array.json#/arrayGroup"
+    },
+    {
+      "properties": {
+        "licenseStatus": {
+          "type": "string",
+          "label": "License Status"
+        },
+        "cacheHighWatermark": {
+          "type": "long",
+          "label": "Cache High Watermark"
+        },
+        "cacheLowWatermark": {
+          "type": "long",
+          "label": "Cache Low Watermark"
+        },
+        "checksum": {
+          "type": "string",
+          "label": "Checksum"
+        },
+        "numOfEnclosures": {
+          "type": "int",
+          "label": "# Enclosures"
+        },
+        "lastSyncTime": {
+          "type": "date",
+          "label": "Last Sync Time",
+          "format": "yyyyMMddHHmmss'.'SSSSSS"
+        },
+        "maskingEnabled": {
+          "type": "bool",
+          "label": "Masking Enabled?"
+        },
+        "readCache": {
+          "type": "number",
+          "label": "Read Cache",
+          "unit": "MB"
+        },
+        "writeCache": {
+          "type": "number",
+          "label": "Write Cache",
+          "unit": "MB"
+        },
+        "nonSataCapacity": {
+          "type": "number",
+          "label": "Non SATA Capacity",
+          "unit": "GB"
+        },
+        "nonSataLicensedCapacity": {
+          "type": "number",
+          "label": "Non SATA Licensed Capacity",
+          "unit": "GB"
+        },
+        "sataCapacity": {
+          "type": "number",
+          "label": "SATA Capacity",
+          "unit": "GB"
+        },
+        "sataLicensedCapacity": {
+          "type": "number",
+          "label": "SATA Licensed Capacity",
+          "unit": "GB"
+        },
+        "uptime": {
+          "type": "number",
+          "label": "Uptime",
+          "unit": "days"
+        },
+        "diskGroups": {
+          "type": "array",
+          "label": "Disk Groups",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  ]
+}

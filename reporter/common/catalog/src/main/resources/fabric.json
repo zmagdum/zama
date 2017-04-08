@@ -1,0 +1,90 @@
+{
+  "$schema": "http://zama.org/model/switch/schema#",
+  "definitions": {
+    "arrayGroup": {
+      "type": "object",
+      "applyTo": "switch",
+      "allOf": [
+        {
+          "$ref": "definitions.json#/basicGroup"
+        },
+        {
+          "$ref": "definitions.json#/hardwareGroup"
+        },
+        {
+          "$ref": "definitions.json#/softwareGroup"
+        },
+        {
+          "$ref": "definitions.json#/performanceGroup"
+        },
+        {
+          "$ref": "definitions.json#/hostPerformanceGroup"
+        },
+        {
+          "properties": {
+            "mode": {
+              "type": "string",
+              "label": "Mode"
+            },
+            "role": {
+              "type": "string",
+              "label": "Role"
+            },
+            "becon": {
+              "type": "string",
+              "label": "Beacon"
+            },
+            "managementUrl": {
+              "type": "string",
+              "label": "Management URL"
+            },
+            "wwn": {
+              "type": "string",
+              "label": "WWN"
+            },
+            "domain": {
+              "type": "string",
+              "label": "Domain"
+            },
+            "numOfPorts": {
+              "type": "string",
+              "label": "# Ports"
+            },
+            "numOfFabrics": {
+              "type": "string",
+              "label": "# Fabrics"
+            },
+            "zoning": {
+              "type": "boolean",
+              "label": "Zoning Enabled"
+            },
+            "principal": {
+              "type": "boolean",
+              "label": "Principal?"
+            },
+            "activeZoneSet": {
+              "type": "number",
+              "label": "Active Zone Set"
+            },
+            "ports": {
+              "type": "array",
+              "label": "Ports",
+              "items": {
+                "type": "string"
+              }
+            },
+            "fabrics": {
+              "type": "array",
+              "label": "Fabrics",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+          ]
+        }
+      ]
+    }
+  }
+}

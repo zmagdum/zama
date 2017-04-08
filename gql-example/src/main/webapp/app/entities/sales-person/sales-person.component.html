@@ -1,0 +1,74 @@
+<div>
+    <h2>
+        <span>Sales People</span>
+        <button class="btn btn-primary float-right create-sales-person" [routerLink]="['/', { outlets: { popup: ['sales-person-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span >
+            Create new Sales Person
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="salesPeople">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+            <th><span>ID</span></th>
+            <th><span>First Name</span></th>
+            <th><span>Last Name</span></th>
+            <th><span>Email</span></th>
+            <th><span>Phone Number</span></th>
+            <th><span>Hire Date</span></th>
+            <th><span>Salary</span></th>
+            <th><span>Commission Pct</span></th>
+            <th><span>Department</span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let salesPerson of salesPeople ;trackBy: trackId">
+                <td><a [routerLink]="['../sales-person', salesPerson.id ]">{{salesPerson.id}}</a></td>
+                <td>{{salesPerson.firstName}}</td>
+                <td>{{salesPerson.lastName}}</td>
+                <td>{{salesPerson.email}}</td>
+                <td>{{salesPerson.phoneNumber}}</td>
+                <td>{{salesPerson.hireDate | date:'medium'}}</td>
+                <td>{{salesPerson.salary}}</td>
+                <td>{{salesPerson.commissionPct}}</td>
+                <td>
+                    <div *ngIf="salesPerson.departmentId">
+                        <a [routerLink]="['../department', salesPerson.departmentId  ]" >{{salesPerson.departmentId}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../sales-person', salesPerson.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="hidden-md-down">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'sales-person/'+ salesPerson.id + '/edit'} }]"
+                                replaceUrl="true"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="hidden-md-down">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'sales-person/'+ salesPerson.id + '/delete'} }]"
+                                replaceUrl="true"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="hidden-md-down">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

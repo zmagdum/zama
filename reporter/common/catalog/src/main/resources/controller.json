@@ -1,0 +1,43 @@
+{
+  "$schema": "http://zama.org/model/array/schema#",
+  "definitions": {
+    "arrayGroup": {
+      "type": "object",
+      "applyTo": "array",
+      "allOf": [
+        {
+          "$ref": "definitions.json#/basicGroup"
+        },
+        {
+          "$ref": "definitions.json#/capacityGroup"
+        },
+        {
+          "$ref": "definitions.json#/hardwareGroup"
+        },
+        {
+          "properties": {
+            "cache": {
+              "type": "int",
+              "label": "Cache",
+              "unit": "MB"
+            },
+            "numOfDisks": {
+              "type": "int",
+              "label": "# Disks"
+            },
+            "controllers": {
+              "type": "array",
+              "label": "Controllers",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "cache"
+          ]
+        }
+      ]
+    }
+  }
+}

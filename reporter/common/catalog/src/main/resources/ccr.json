@@ -1,0 +1,47 @@
+{
+  "$schema": "http://zama.org/model/zone/schema#",
+  "definitions": {
+    "arrayGroup": {
+      "type": "object",
+      "applyTo": "zone",
+      "allOf": [
+        {
+          "$ref": "definitions.json#/basicGroup"
+        },
+        {
+          "properties": {
+            "member": {
+              "type": "string",
+              "label": "Member"
+            },
+            "systemName": {
+              "type": "String",
+              "label": "System Name"
+            },
+            "systemType": {
+              "type": "String",
+              "label": "System Type"
+            },
+            "slotNumber": {
+              "type": "int",
+              "label": "Slot Number"
+            },
+            "portNumber": {
+              "type": "int",
+              "label": "Port Number"
+            },
+            "ports": {
+              "type": "array",
+              "label": "Ports",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+          ]
+        }
+      ]
+    }
+  }
+}

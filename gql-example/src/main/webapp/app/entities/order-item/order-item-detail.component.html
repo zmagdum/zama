@@ -1,0 +1,41 @@
+
+<div *ngIf="orderItem">
+    <h2><span>Order Item</span> {{orderItem.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span>Quanity</span></dt>
+        <dd>
+            <span>{{orderItem.quanity}}</span>
+        </dd>
+        <dt><span>Value</span></dt>
+        <dd>
+            <span>{{orderItem.value}}</span>
+        </dd>
+        <dt><span>Product</span></dt>
+        <dd>
+            <div *ngIf="orderItem.productId">
+                <a [routerLink]="['/product', orderItem.productId]">{{orderItem.productId}}</a>
+            </div>
+        </dd>
+        <dt><span>Customer Order</span></dt>
+        <dd>
+            <div *ngIf="orderItem.customerOrderId">
+                <a [routerLink]="['/customer-order', orderItem.customerOrderId]">{{orderItem.customerOrderId}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'order-item/'+ orderItem.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span> Edit</span>
+    </button>
+</div>

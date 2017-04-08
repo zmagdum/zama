@@ -1,0 +1,50 @@
+{
+  "$schema": "http://zama.org/model/disk/schema#",
+  "definitions": {
+    "arrayGroup": {
+      "type": "object",
+      "applyTo": "disk",
+      "allOf": [
+        {
+          "$ref": "definitions.json#/basicGroup"
+        },
+        {
+          "$ref": "definitions.json#/hardwareGroup"
+        },
+        {
+          "$ref": "definitions.json#/softwareGroup"
+        },
+        {
+          "$ref": "definitions.json#/basicPerformanceGroup"
+        },
+        {
+          "properties": {
+            "hotSpare": {
+              "type": "boolean",
+              "label": "Hot Spare?"
+            },
+            "rpm": {
+              "type": "int",
+              "label": "RPM",
+              "unit" : "rpm"
+            },
+            "numOfLuns": {
+              "type": "int",
+              "label": "# Luns"
+            },
+            "luns": {
+              "type": "array",
+              "label": "Luns",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "cache"
+          ]
+        }
+      ]
+    }
+  }
+}

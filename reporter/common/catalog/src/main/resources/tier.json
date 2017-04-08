@@ -1,0 +1,41 @@
+{
+  "$schema": "http://zama.org/model/ing/schema#",
+  "definitions": {
+    "arrayGroup": {
+      "type": "object",
+      "applyTo": "ing",
+      "allOf": [
+        {
+          "$ref": "definitions.json#/basicGroup"
+        },
+        {
+          "properties": {
+            "initiators": {
+              "type": "array",
+              "label": "Initiators",
+              "items": {
+                "type": "string"
+              }
+            },
+            "luns": {
+              "type": "array",
+              "label": "Luns",
+              "items": {
+                "type": "string"
+              }
+            },
+            "initiatorGroups": {
+              "type": "array",
+              "label": "Initiator Groups in Initiator Group",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+          ]
+        }
+      ]
+    }
+  }
+}

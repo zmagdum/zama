@@ -1,0 +1,55 @@
+
+<div *ngIf="salesPerson">
+    <h2><span>Sales Person</span> {{salesPerson.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span>First Name</span></dt>
+        <dd>
+            <span>{{salesPerson.firstName}}</span>
+        </dd>
+        <dt><span>Last Name</span></dt>
+        <dd>
+            <span>{{salesPerson.lastName}}</span>
+        </dd>
+        <dt><span>Email</span></dt>
+        <dd>
+            <span>{{salesPerson.email}}</span>
+        </dd>
+        <dt><span>Phone Number</span></dt>
+        <dd>
+            <span>{{salesPerson.phoneNumber}}</span>
+        </dd>
+        <dt><span>Hire Date</span></dt>
+        <dd>
+            <span>{{salesPerson.hireDate | date:'medium'}}</span>
+        </dd>
+        <dt><span>Salary</span></dt>
+        <dd>
+            <span>{{salesPerson.salary}}</span>
+        </dd>
+        <dt><span>Commission Pct</span></dt>
+        <dd>
+            <span>{{salesPerson.commissionPct}}</span>
+        </dd>
+        <dt><span>Department</span></dt>
+        <dd>
+            <div *ngIf="salesPerson.departmentId">
+                <a [routerLink]="['/department', salesPerson.departmentId]">{{salesPerson.departmentId}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'sales-person/'+ salesPerson.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span> Edit</span>
+    </button>
+</div>

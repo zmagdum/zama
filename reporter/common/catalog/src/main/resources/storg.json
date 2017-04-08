@@ -1,0 +1,27 @@
+{
+  "$schema": "http://zama.org/model/portg/schema#",
+  "definitions": {
+    "arrayGroup": {
+      "type": "object",
+      "applyTo": "portg",
+      "allOf": [
+        {
+          "$ref": "definitions.json#/basicGroup"
+        },
+        {
+          "properties": {
+            "ports": {
+              "type": "array",
+              "label": "Ports",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+          ]
+        }
+      ]
+    }
+  }
+}

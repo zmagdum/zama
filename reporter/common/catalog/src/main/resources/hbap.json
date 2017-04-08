@@ -1,0 +1,49 @@
+{
+  "$schema": "http://zama.org/model/hba/schema#",
+  "definitions": {
+    "arrayGroup": {
+      "type": "object",
+      "applyTo": "hba",
+      "allOf": [
+        {
+          "$ref": "definitions.json#/basicGroup"
+        },
+        {
+          "$ref": "definitions.json#/softwareGroup"
+        },
+        {
+          "$ref": "definitions.json#/basicPerformanceGroup"
+        },
+        {
+          "properties": {
+            "adapterNumber": {
+              "type": "string",
+              "label": "Adapter Number"
+            },
+            "numOfPorts": {
+              "type": "int",
+              "label": "# Ports"
+            },
+            "nodeWwn": {
+              "type": "string",
+              "label": "Node WWN"
+            },
+            "driver": {
+              "type": "string",
+              "label": "Driver Name"
+            },
+            "ports": {
+              "type": "array",
+              "label": "Ports",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+          ]
+        }
+      ]
+    }
+  }
+}

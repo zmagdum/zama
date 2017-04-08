@@ -1,0 +1,41 @@
+{
+  "$schema": "http://zama.org/model/hostdisk/schema#",
+  "definitions": {
+    "arrayGroup": {
+      "type": "object",
+      "applyTo": "hd",
+      "allOf": [
+        {
+          "$ref": "definitions.json#/basicGroup"
+        },
+        {
+          "$ref": "definitions.json#/capacityGroup"
+        },
+        {
+          "$ref": "definitions.json#/virtualCenterInfoGroup"
+        },
+        {
+          "$ref": "definitions.json#/softwareGroup"
+        },
+        {
+          "$ref": "definitions.json#/basicPerformanceGroup"
+        },
+        {
+          "properties": {
+            "thinlyProvisioned": {
+              "type": "boolean",
+              "label": "Thinly Provisioned?"
+            },
+            "lun": {
+              "type": "string",
+              "label": "Lun"
+            }
+          },
+          "required": [
+            "cache"
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,105 @@
+{
+  "$schema": "http://zama.org/model/host/schema#",
+  "definitions": {
+    "arrayGroup": {
+      "type": "object",
+      "applyTo": "host",
+      "allOf": [
+        {
+          "$ref": "definitions.json#/basicGroup"
+        },
+        {
+          "$ref": "definitions.json#/capacityGroup"
+        },
+        {
+          "$ref": "definitions.json#/virtualCenterInfoGroup"
+        },
+        {
+          "$ref": "definitions.json#/softwareGroup"
+        },
+        {
+          "$ref": "definitions.json#/basicPerformanceGroup"
+        },
+        {
+          "properties": {
+            "cpus": {
+              "type": "int",
+              "label": "# CPUs"
+            },
+            "memory": {
+              "type": "int",
+              "label": "Memory",
+              "unit" : "GB"
+            },
+            "ip": {
+              "type": "string",
+              "label": "IP"
+            },
+            "domain": {
+              "type": "string",
+              "label": "Domain"
+            },
+            "os": {
+              "type": "string",
+              "label": "Opertaing System"
+            },
+            "osClass": {
+              "type": "string",
+              "label": "OS Class"
+            },
+            "osLevel": {
+              "type": "string",
+              "label": "OS Level"
+            },
+            "ip": {
+              "type": "string",
+              "label": "IP"
+            },
+            "bootTime": {
+              "type": "date",
+              "label": "Boot Time"
+            },
+            "disks": {
+              "type": "array",
+              "label": "Disks",
+              "items": {
+                "type": "string"
+              }
+            },
+            "multiPathDevices": {
+              "type": "array",
+              "label": "Multi Path Devices",
+              "items": {
+                "type": "string"
+              }
+            },
+            "luns": {
+              "type": "array",
+              "label": "Luns",
+              "items": {
+                "type": "string"
+              }
+            },
+            "hbas": {
+              "type": "array",
+              "label": "HBAs",
+              "items": {
+                "type": "string"
+              }
+            },
+            "hbaPorts": {
+              "type": "array",
+              "label": "HBA Ports",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "cache"
+          ]
+        }
+      ]
+    }
+  }
+}

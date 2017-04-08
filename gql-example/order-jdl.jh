@@ -1,0 +1,61 @@
+entity Location {
+	streetAddress String,
+	postalCode String,
+	city String,
+	stateProvince String,
+    region String
+    country String
+}
+
+entity Department {
+	departmentName String required
+}
+
+entity Product {
+	title String,
+	description String
+    price Double
+}
+
+entity SalesPerson {
+	firstName String,
+	lastName String,
+	email String,
+	phoneNumber String,
+	hireDate ZonedDateTime,
+	salary Long,
+	commissionPct Long
+}
+
+entity OrderItem {
+	quanity Long,
+    value Double
+}
+
+entity CustomerOrder {
+	orderDate ZonedDateTime,
+	comments String,
+	totalValue Double
+}
+
+entity Customer {
+	firstName String,
+	lastName String,
+	email String,
+	phoneNumber String,
+}
+
+relationship OneToOne {
+	Customer{address} to Location
+}
+
+relationship OneToMany {
+	SalesPerson{salesPerson} to CustomerOrder,
+    Customer{orders} to CustomerOrder,
+    CustomerOrder{items} to OrderItem,
+    Department{department} to SalesPerson,
+    Product{item} to OrderItem
+}
+
+dto * with mapstruct
+

@@ -1,0 +1,53 @@
+{
+  "$schema": "http://zama.org/model/swp/schema#",
+  "definitions": {
+    "arrayGroup": {
+      "type": "object",
+      "applyTo": "swp",
+      "allOf": [
+        {
+          "$ref": "definitions.json#/basicGroup"
+        },
+        {
+          "$ref": "definitions.json#/portGroup"
+        },
+        {
+          "$ref": "definitions.json#/softwareGroup"
+        },
+        {
+          "$ref": "definitions.json#/hardwareGroup"
+        },
+        {
+          "$ref": "definitions.json#/performanceGroup"
+        },
+        {
+          "$ref": "definitions.json#/basicPerformanceGroup"
+        },
+        {
+          "$ref": "definitions.json#/peakPerformanceGroup"
+        },
+        {
+          "properties": {
+            "enforcement": {
+              "type": "string",
+              "label": "Enforcement"
+            },
+            "connectedPort": {
+              "type": "String",
+              "label": "Connected Port"
+            },
+            "luns": {
+              "type": "array",
+              "label": "Luns",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+          ]
+        }
+      ]
+    }
+  }
+}

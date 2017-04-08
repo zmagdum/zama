@@ -1,0 +1,60 @@
+
+
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myCustomerOrderLabel">Create or edit a Customer Order</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!customerOrder.id">
+            <label for="id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="customerOrder.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_orderDate">Order Date</label>
+            <div class="d-flex">
+                <input id="field_orderDate" type="datetime-local" class="form-control" name="orderDate" [(ngModel)]="customerOrder.orderDate"
+                  />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_comments">Comments</label>
+            <input type="text" class="form-control" name="comments" id="field_comments"
+                [(ngModel)]="customerOrder.comments"
+             />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_totalValue">Total Value</label>
+            <input type="number" class="form-control" name="totalValue" id="field_totalValue"
+                [(ngModel)]="customerOrder.totalValue"
+             />
+        </div>
+
+        <div class="form-group">
+            <label for="field_salesPerson">Sales Person</label>
+            <select class="form-control" id="field_salesPerson" name="salesPerson" [(ngModel)]="customerOrder.salesPersonId" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="salesPersonOption.id" *ngFor="let salesPersonOption of salespeople; trackBy: trackSalesPersonById">{{salesPersonOption.id}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="field_customer">Customer</label>
+            <select class="form-control" id="field_customer" name="customer" [(ngModel)]="customerOrder.customerId" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="customerOption.id" *ngFor="let customerOption of customers; trackBy: trackCustomerById">{{customerOption.id}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span>Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span>Save</span>
+        </button>
+    </div>
+</form>

@@ -1,0 +1,46 @@
+{
+  "$schema": "http://zama.org/model/tier/schema#",
+  "definitions": {
+    "arrayGroup": {
+      "type": "object",
+      "applyTo": "tier",
+      "allOf": [
+        {
+          "$ref": "definitions.json#/basicGroup"
+        },
+        {
+          "$ref": "definitions.json#/capacityGroup"
+        },
+        {
+          "properties": {
+            "dynamic": {
+              "type": "string",
+              "label": "Dynamic"
+            },
+            "percentage": {
+              "type": "string",
+              "label": "Percentage"
+            },
+            "relPerfOrder": {
+              "type": "string",
+              "label": "Relative Performance Order"
+            },
+            "technology": {
+              "type": "string",
+              "label": "Technology"
+            },
+            "luns": {
+              "type": "array",
+              "label": "Luns",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+          ]
+        }
+      ]
+    }
+  }
+}
