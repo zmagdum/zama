@@ -10,11 +10,13 @@ import com.google.common.base.Optional;
 import com.merapar.graphql.base.TypedValueMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.zama.sample.graphql.domain.Department;
 import org.zama.sample.graphql.repository.DepartmentRepository;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class DepartmentDataFetcher {
@@ -31,13 +33,19 @@ public class DepartmentDataFetcher {
     }
 
     public Department add(TypedValueMap arguments) {
-        Department dept = Department.Builder.aDepartment().departmentName(arguments.get("name")).build();
+        Department dept = Department.Builder.aDepartment().departmentName(arguments.get("departmentName")).build();
         return departmentRepository.save(dept);
     }
 
     public Department update(TypedValueMap arguments) {
         Long id = arguments.get("id");
-        String name = arguments.get("name");
+        String name = arguments.get("departmentName");
+        if (!StringUtils.hasLength(name)) {
+            throw new IllegalArgumentException("Department not specified");
+        }
+        if (id == null) {
+            return add(arguments);
+        }
         Department dept = Optional.fromNullable(departmentRepository.getOne(id)).or(
             Department.Builder.aDepartment()
             .id(id)

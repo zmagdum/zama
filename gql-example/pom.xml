@@ -97,15 +97,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.merapar</groupId>
-            <artifactId>spring-boot-starter-graphql</artifactId>
-            <version>1.0.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-hibernate5</artifactId>
         </dependency>
@@ -140,6 +131,11 @@
             <groupId>com.mattbertolini</groupId>
             <artifactId>liquibase-slf4j</artifactId>
             <version>${liquibase-slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.merapar</groupId>
+            <artifactId>spring-boot-starter-graphql</artifactId>
+            <version>1.0.1</version>
         </dependency>
         <dependency>
             <groupId>com.ryantenney.metrics</groupId>
@@ -300,6 +296,10 @@
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct-jdk8</artifactId>
             <version>${mapstruct.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -632,6 +632,11 @@
                 </configuration>
             </plugin>
             <plugin>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok-maven-plugin</artifactId>
+                <version>1.16.16.0</version>
+            </plugin>
+            <plugin>
                 <groupId>org.sonarsource.scanner.maven</groupId>
                 <artifactId>sonar-maven-plugin</artifactId>
                 <version>${sonar-maven-plugin.version}</version>
@@ -647,11 +652,6 @@
                     <jvmArguments>-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005</jvmArguments>
                     -->
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok-maven-plugin</artifactId>
-                <version>1.16.16.0</version>
             </plugin>
             <!-- jhipster-needle-maven-add-plugin -->
         </plugins>
