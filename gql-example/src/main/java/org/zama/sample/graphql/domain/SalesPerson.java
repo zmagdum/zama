@@ -1,6 +1,7 @@
 package org.zama.sample.graphql.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import graphql.annotations.GraphQLField;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -23,30 +24,39 @@ public class SalesPerson implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GraphQLField
     private Long id;
 
     @Column(name = "first_name")
+    @GraphQLField
     private String firstName;
 
     @Column(name = "last_name")
+    @GraphQLField
     private String lastName;
 
     @Column(name = "email")
+    @GraphQLField
     private String email;
 
     @Column(name = "phone_number")
+    @GraphQLField
     private String phoneNumber;
 
     @Column(name = "hire_date")
+    @GraphQLField
     private ZonedDateTime hireDate;
 
     @Column(name = "salary")
+    @GraphQLField
     private Long salary;
 
     @Column(name = "commission_pct")
+    @GraphQLField
     private Long commissionPct;
 
     @ManyToOne
+    @GraphQLField
     private Department department;
 
     @OneToMany(mappedBy = "salesPerson")

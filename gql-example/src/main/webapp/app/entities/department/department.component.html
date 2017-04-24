@@ -24,7 +24,7 @@
             <tbody>
             <tr *ngFor="let department of departments ;trackBy: trackId">
                 <td><a [routerLink]="['../department', department.id ]">{{department.id}}</a></td>
-                <td>{{department.departmentName}}</td>
+                <td>{{department.name}}</td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

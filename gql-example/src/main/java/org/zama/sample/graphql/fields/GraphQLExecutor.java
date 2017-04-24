@@ -26,6 +26,7 @@ import java.util.concurrent.TimeUnit;
 
 import static com.merapar.graphql.base.GraphQlFieldsHelper.getFilterMap;
 import static com.merapar.graphql.base.GraphQlFieldsHelper.getInputMap;
+import static graphql.Scalars.GraphQLInt;
 import static graphql.Scalars.GraphQLLong;
 import static graphql.Scalars.GraphQLString;
 import static graphql.schema.GraphQLArgument.newArgument;
@@ -48,7 +49,8 @@ public class GraphQLExecutor {
 
     private GraphQLObjectType deptType;
 
-    private GraphQLObjectType deptQueryType;
+    private GraphQLInputObjectType pageInputType;
+    private GraphQLObjectType pageInfoType;
 
     private GraphQLInputObjectType saveDepartmentInputType;
     private GraphQLInputObjectType updateDepartmentInputType;
@@ -107,12 +109,12 @@ public class GraphQLExecutor {
     private void createTypes() {
         deptType = newObject().name("department").description("A department")
             .field(newFieldDefinition().name("id").description("The id").type(GraphQLLong).build())
-            .field(newFieldDefinition().name("departmentName").description("The name").type(GraphQLString).build())
+            .field(newFieldDefinition().name("name").description("The name").type(GraphQLString).build())
             .build();
 
         saveDepartmentInputType = newInputObject().name("saveDepartmentInput")
             .field(newInputObjectField().name("id").type(new GraphQLNonNull(GraphQLLong)).build())
-            .field(newInputObjectField().name("departmentName").type(new GraphQLNonNull(Scalars.GraphQLString)).build())
+            .field(newInputObjectField().name("name").type(new GraphQLNonNull(Scalars.GraphQLString)).build())
             .build();
 
         deleteDepartmentInputType = newInputObject().name("deleteDepartmentInput")
@@ -122,14 +124,34 @@ public class GraphQLExecutor {
         filterDepartmentInputType = newInputObject().name("filterDepartmentInput")
             .field(newInputObjectField().name("id").type(GraphQLLong).build())
             .build();
+
+        pageInputType = newInputObject().name("page").description("A page")
+            .field(newInputObjectField().name("number").description("The id").type(GraphQLInt).build())
+            .field(newInputObjectField().name("size").description("The name").type(GraphQLInt).build())
+            .field(newInputObjectField().name("sort").description("The name").type(GraphQLString).build())
+            .field(newInputObjectField().name("command").description("The name").type(GraphQLString).build())
+            .build();
+
+        pageInfoType = newObject().name("pageInfo").description("A page")
+            .field(newFieldDefinition().name("number").description("The id").type(GraphQLInt).build())
+            .field(newFieldDefinition().name("size").description("The name").type(GraphQLInt).build())
+            .field(newFieldDefinition().name("total").description("The name").type(GraphQLInt).build())
+            .build();
     }
 
     private void createFields() {
+
+        GraphQLObjectType deptOutputType = newObject().name("department").description("A department")
+            .field(newFieldDefinition().name("departments").description("The results").type(new GraphQLList(deptType)).build())
+            .field(newFieldDefinition().name("pageInfo").description("The name").type(pageInfoType).build())
+            .build();
+
         deptsField = newFieldDefinition()
             .name("queryDepartment").description("Provide an overview of all departments")
-            .type(new GraphQLList(deptType))
+            .type(deptOutputType)
             .argument(newArgument().name("id").description("The id").type(GraphQLLong).build())
-            .argument(newArgument().name("departmentName").description("The name").type(GraphQLString).build())
+            .argument(newArgument().name("name").description("The name").type(GraphQLString).build())
+            .argument(newArgument().name("page").description("The page").type(pageInputType).build())
             .dataFetcher(environment -> deptDataFetcher.getByFilter(getArgumentsTypedMap(environment)))
             .build();
 
@@ -137,7 +159,7 @@ public class GraphQLExecutor {
             .name("saveDepartment").description("Add new/save department")
             .type(deptType)
             .argument(newArgument().name("id").description("The id").type(GraphQLLong).build())
-            .argument(newArgument().name("departmentName").description("The name").type(GraphQLString).build())
+            .argument(newArgument().name("name").description("The name").type(GraphQLString).build())
             .dataFetcher(environment -> deptDataFetcher.update(getArgumentsTypedMap(environment)))
             .build();
 
@@ -161,7 +183,7 @@ public class GraphQLExecutor {
 //                        .type(GraphQLLong).build())
 //                .argument(
 //                    newArgument()
-//                        .name("departmentName")
+//                        .name("name")
 //                        .description("The name")
 //                        .type(GraphQLString).build())
 //                .dataFetcher(environment -> deptDataFetcher.getByFilter(getFilterMap(environment)))
@@ -187,6 +209,7 @@ public class GraphQLExecutor {
 
 
         this.graphQLSchema = GraphQLSchema.newSchema().query(queryBuilder.build()).mutation(mutationBuilder.build()).build();
+        System.out.println(this.graphQLSchema.getAllTypesAsList());
     }
 
     public static TypedValueMap getArgumentsTypedMap(DataFetchingEnvironment environment) {

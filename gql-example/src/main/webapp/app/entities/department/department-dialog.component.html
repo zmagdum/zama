@@ -16,12 +16,12 @@
         </div>
         <div class="form-group">
             <label class="form-control-label" for="field_departmentName">Department Name</label>
-            <input type="text" class="form-control" name="departmentName" id="field_departmentName"
-                [(ngModel)]="department.departmentName"
+            <input type="text" class="form-control" name="name" id="field_departmentName"
+                [(ngModel)]="department.name"
             required />
-            <div [hidden]="!(editForm.controls.departmentName?.dirty && editForm.controls.departmentName?.invalid)">
+            <div [hidden]="!(editForm.controls.name?.dirty && editForm.controls.name?.invalid)">
                 <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.departmentName?.errors?.required">
+                   [hidden]="!editForm.controls.name?.errors?.required">
                    This field is required.
                 </small>
             </div>

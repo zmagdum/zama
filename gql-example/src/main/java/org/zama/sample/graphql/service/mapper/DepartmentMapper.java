@@ -16,7 +16,7 @@ public interface DepartmentMapper {
 
     List<DepartmentDTO> departmentsToDepartmentDTOs(List<Department> departments);
 
-    @Mapping(target = "departments", ignore = true)
+    @Mapping(target = "salesPersons", ignore = true)
     Department departmentDTOToDepartment(DepartmentDTO departmentDTO);
 
     List<Department> departmentDTOsToDepartments(List<DepartmentDTO> departmentDTOs);
@@ -27,7 +27,7 @@ public interface DepartmentMapper {
      * @param id id of the entity
      * @return the entity instance
      */
-     
+
     default Department departmentFromId(Long id) {
         if (id == null) {
             return null;
@@ -36,6 +36,6 @@ public interface DepartmentMapper {
         department.setId(id);
         return department;
     }
-    
+
 
 }

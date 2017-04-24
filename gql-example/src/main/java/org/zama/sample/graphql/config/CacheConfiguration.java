@@ -47,7 +47,7 @@ public class CacheConfiguration {
             cm.createCache(org.zama.sample.graphql.domain.CustomerOrder.class.getName(), jcacheConfiguration);
             cm.createCache(org.zama.sample.graphql.domain.CustomerOrder.class.getName() + ".items", jcacheConfiguration);
             cm.createCache(org.zama.sample.graphql.domain.Department.class.getName(), jcacheConfiguration);
-            cm.createCache(org.zama.sample.graphql.domain.Department.class.getName() + ".departments", jcacheConfiguration);
+            cm.createCache(org.zama.sample.graphql.domain.Department.class.getName() + ".salesPersons", jcacheConfiguration);
             cm.createCache(org.zama.sample.graphql.domain.Location.class.getName(), jcacheConfiguration);
             cm.createCache(org.zama.sample.graphql.domain.OrderItem.class.getName(), jcacheConfiguration);
             cm.createCache(org.zama.sample.graphql.domain.Product.class.getName(), jcacheConfiguration);

@@ -31,4 +31,3 @@ public class GraphQLResource {
         return executor.executeRequest(query);
     }
 }
-git

@@ -1,6 +1,7 @@
 package org.zama.sample.graphql.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import graphql.annotations.GraphQLField;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -23,16 +24,19 @@ public class Department implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GraphQLField
     private Long id;
 
     @NotNull
     @Column(name = "department_name", nullable = false)
-    private String departmentName;
+    @GraphQLField
+    private String name;
 
     @OneToMany(mappedBy = "department")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<SalesPerson> departments = new HashSet<>();
+    @GraphQLField
+    private Set<SalesPerson> salesPersons = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -42,42 +46,42 @@ public class Department implements Serializable {
         this.id = id;
     }
 
-    public String getDepartmentName() {
-        return departmentName;
+    public String getName() {
+        return name;
     }
 
     public Department departmentName(String departmentName) {
-        this.departmentName = departmentName;
+        this.name = departmentName;
         return this;
     }
 
-    public void setDepartmentName(String departmentName) {
-        this.departmentName = departmentName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Set<SalesPerson> getDepartments() {
-        return departments;
+    public Set<SalesPerson> getSalesPersons() {
+        return salesPersons;
     }
 
     public Department departments(Set<SalesPerson> salesPeople) {
-        this.departments = salesPeople;
+        this.salesPersons = salesPeople;
         return this;
     }
 
-    public Department addDepartment(SalesPerson salesPerson) {
-        this.departments.add(salesPerson);
+    public Department addSalesPerson(SalesPerson salesPerson) {
+        this.salesPersons.add(salesPerson);
         salesPerson.setDepartment(this);
         return this;
     }
 
-    public Department removeDepartment(SalesPerson salesPerson) {
-        this.departments.remove(salesPerson);
+    public Department removeSalesPerson(SalesPerson salesPerson) {
+        this.salesPersons.remove(salesPerson);
         salesPerson.setDepartment(null);
         return this;
     }
 
-    public void setDepartments(Set<SalesPerson> salesPeople) {
-        this.departments = salesPeople;
+    public void setSalesPersons(Set<SalesPerson> salesPeople) {
+        this.salesPersons = salesPeople;
     }
 
     @Override
@@ -104,7 +108,7 @@ public class Department implements Serializable {
     public String toString() {
         return "Department{" +
             "id=" + id +
-            ", departmentName='" + departmentName + "'" +
+            ", name='" + name + "'" +
             '}';
     }
 
@@ -138,8 +142,8 @@ public class Department implements Serializable {
         public Department build() {
             Department department = new Department();
             department.setId(id);
-            department.setDepartmentName(departmentName);
-            department.setDepartments(departments);
+            department.setName(departmentName);
+            department.setSalesPersons(departments);
             return department;
         }
     }

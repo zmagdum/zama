@@ -9,6 +9,9 @@ package org.zama.sample.graphql.fetchers;
 import com.google.common.base.Optional;
 import com.merapar.graphql.base.TypedValueMap;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.zama.sample.graphql.domain.Department;
@@ -23,23 +26,38 @@ public class DepartmentDataFetcher {
     @Autowired
     private DepartmentRepository departmentRepository;
 
-    public List<Department> getByFilter(TypedValueMap arguments) {
+    public DepartmentQueryResult getByFilter(TypedValueMap arguments) {
         Long id = arguments.get("id");
         if (id != null) {
-            return Collections.singletonList(departmentRepository.findOne(id));
+            return new DepartmentQueryResult(Collections.singletonList(departmentRepository.findOne(id)), new PageInfo(1));
         } else {
-            return departmentRepository.findAll();
+            int pageNumber = 0, pageSize = 25;
+            TypedValueMap page = arguments.get("page");
+            if (page != null) {
+                Integer num = page.get("number");
+                if (num != null) {
+                    pageNumber = num;
+                }
+                num = page.get("size");
+                if (num != null) {
+                    pageSize = num;
+                }
+            }
+            // TODO: sorting
+            PageRequest pr = new PageRequest(pageNumber, pageSize);
+            Page<Department> pd = departmentRepository.findAll(pr);
+            return new DepartmentQueryResult(pd, pr);
         }
     }
 
     public Department add(TypedValueMap arguments) {
-        Department dept = Department.Builder.aDepartment().departmentName(arguments.get("departmentName")).build();
+        Department dept = Department.Builder.aDepartment().departmentName(arguments.get("name")).build();
         return departmentRepository.save(dept);
     }
 
     public Department update(TypedValueMap arguments) {
         Long id = arguments.get("id");
-        String name = arguments.get("departmentName");
+        String name = arguments.get("name");
         if (!StringUtils.hasLength(name)) {
             throw new IllegalArgumentException("Department not specified");
         }
@@ -50,7 +68,7 @@ public class DepartmentDataFetcher {
             Department.Builder.aDepartment()
             .id(id)
             .build());
-        dept.setDepartmentName(name);
+        dept.setName(name);
         return departmentRepository.save(dept);
     }
 
@@ -60,5 +78,4 @@ public class DepartmentDataFetcher {
         departmentRepository.delete(dept);
         return dept;
     }
-
 }

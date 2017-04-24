@@ -107,7 +107,7 @@ public class DepartmentResourceIntTest {
         List<Department> departmentList = departmentRepository.findAll();
         assertThat(departmentList).hasSize(databaseSizeBeforeCreate + 1);
         Department testDepartment = departmentList.get(departmentList.size() - 1);
-        assertThat(testDepartment.getDepartmentName()).isEqualTo(DEFAULT_DEPARTMENT_NAME);
+        assertThat(testDepartment.getName()).isEqualTo(DEFAULT_DEPARTMENT_NAME);
     }
 
     @Test
@@ -135,7 +135,7 @@ public class DepartmentResourceIntTest {
     public void checkDepartmentNameIsRequired() throws Exception {
         int databaseSizeBeforeTest = departmentRepository.findAll().size();
         // set the field null
-        department.setDepartmentName(null);
+        department.setName(null);
 
         // Create the Department, which fails.
         DepartmentDTO departmentDTO = departmentMapper.departmentToDepartmentDTO(department);
@@ -207,7 +207,7 @@ public class DepartmentResourceIntTest {
         List<Department> departmentList = departmentRepository.findAll();
         assertThat(departmentList).hasSize(databaseSizeBeforeUpdate);
         Department testDepartment = departmentList.get(departmentList.size() - 1);
-        assertThat(testDepartment.getDepartmentName()).isEqualTo(UPDATED_DEPARTMENT_NAME);
+        assertThat(testDepartment.getName()).isEqualTo(UPDATED_DEPARTMENT_NAME);
     }
 
     @Test

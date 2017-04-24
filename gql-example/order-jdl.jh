@@ -8,7 +8,7 @@ entity Location {
 }
 
 entity Department {
-	departmentName String required
+	name String required
 }
 
 entity Product {
